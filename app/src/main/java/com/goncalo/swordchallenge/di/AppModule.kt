@@ -1,0 +1,53 @@
+package com.goncalo.swordchallenge.di
+
+import android.content.Context
+import androidx.room.Room
+import com.goncalo.swordchallenge.common.API_BASE_URL
+import com.goncalo.swordchallenge.common.DB_NAME
+import com.goncalo.swordchallenge.data.db.CatInformationDao
+import com.goncalo.swordchallenge.data.network.CatInformationApi
+import com.goncalo.swordchallenge.data.repository.CatInformationRepository
+import com.goncalo.swordchallenge.database.SwordDatabase
+import com.goncalo.swordchallenge.domain.repository.CatInformationRepositoryImpl
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+object AppModule {
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(API_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+    }
+
+    @Provides
+    @Singleton
+    fun provideRoom(@ApplicationContext context: Context) =
+        Room.databaseBuilder(context, SwordDatabase::class.java, DB_NAME).build()
+
+    @Provides
+    @Singleton
+    fun provideCatApi(retrofit: Retrofit) = retrofit.create(CatInformationApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCatInformationDao(swordDatabase: SwordDatabase) = swordDatabase.catInformationDao()
+
+    @Singleton
+    @Provides
+    fun provideCatInformationRepository(api: CatInformationApi, dao: CatInformationDao): CatInformationRepository =
+        CatInformationRepositoryImpl(api, dao)
+
+}
