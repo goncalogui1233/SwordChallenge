@@ -3,11 +3,12 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.android.ksp)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
     namespace = "com.goncalo.swordchallenge"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.goncalo.swordchallenge"
@@ -87,5 +88,9 @@ dependencies {
     implementation(libs.androidx.paging.runtime.ktx)
     testImplementation(libs.androidx.paging.common)
     implementation(libs.androidx.paging.compose)
+
+    //Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 
 }
