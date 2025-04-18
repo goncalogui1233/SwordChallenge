@@ -9,9 +9,11 @@ interface CatInformationRepository {
 
     suspend fun getCatList(breedName: String): Flow<PagingData<CatInformation>>
 
-    fun getCatFavouriteList(): Flow<List<CatFavouriteInformation>>
+    suspend fun getCatFavouriteList(): List<CatFavouriteInformation>
 
-    suspend fun insertCatFavourite(catFavouriteInformation: CatInformation)
+    fun getCatFavouriteListFlow(): Flow<List<CatFavouriteInformation>>
+
+    suspend fun insertCatFavourite(catFavouriteInformation: CatFavouriteInformation)
 
     suspend fun deleteCatFavourite(catInformation: CatInformation)
 

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -28,18 +27,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import coil3.compose.AsyncImage
-import com.goncalo.swordchallenge.R
-import com.goncalo.swordchallenge.domain.model.CatInformation
 import com.goncalo.swordchallenge.presentation.catlist.viewmodel.CatListViewModel
+import com.goncalo.swordchallenge.presentation.catlist.views.CatListItem
 import com.goncalo.swordchallenge.presentation.common.ShimmerEffect
 
 @Composable
@@ -72,12 +67,8 @@ fun CatListScreen(modifier: Modifier = Modifier, viewModel: CatListViewModel) {
                 items(count = listItems.itemCount) {
                     val catItem = listItems[it]
                     catItem?.let { item ->
-                        CatListItem(item = item) { isFavourite ->
-                            if(isFavourite) {
-                                viewModel.addCatToFavourite(item)
-                            } else {
-                                viewModel.deleteCatFromFavourite(item)
-                            }
+                        CatListItem(item = item) {
+                            viewModel.changeCatFavouriteStatus(item)
                         }
                     }
                 }
@@ -127,41 +118,4 @@ fun CatListSearchBox(modifier: Modifier = Modifier, onTextChange: (String) -> Un
             .fillMaxWidth()
             .padding(horizontal = 10.dp, vertical = 16.dp)
     )
-}
-
-@Composable
-fun CatListItem(modifier: Modifier = Modifier, item: CatInformation, onFavouriteClick: (Boolean) -> Unit) {
-    Box(
-        modifier = modifier.padding(10.dp)
-    ) {
-        Column {
-            AsyncImage(
-                model = item.url,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(125.dp)
-                    .clip(RoundedCornerShape(12.dp)),
-                contentScale = ContentScale.Crop
-            )
-            Text(text = item.breedName)
-        }
-
-        var isFavourite by remember {
-            mutableStateOf(item.isFavourite)
-        }
-
-        Box(modifier = Modifier.matchParentSize(), contentAlignment = Alignment.TopEnd) {
-            val star =
-                painterResource(id = if (isFavourite) R.drawable.star_filled else R.drawable.star_outline)
-            Icon(
-                painter = star,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(32.dp)
-                    .clickable {
-                        isFavourite = !isFavourite
-                        onFavouriteClick(isFavourite)
-                    })
-        }
-    }
 }

@@ -17,7 +17,7 @@ interface CatFavouriteDao {
     fun getAllFavouriteCatsFlow(): Flow<List<CatFavouriteInformation>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertNewFavourite(favourite: CatFavouriteInformation): Long
+    suspend fun insertNewFavourite(favourite: CatFavouriteInformation)
 
     @Query("DELETE FROM catfavouriteinformation where id = :catId")
     suspend fun removeFavourite(catId: String)
