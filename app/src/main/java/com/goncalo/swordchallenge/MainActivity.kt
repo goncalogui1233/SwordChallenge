@@ -8,32 +8,50 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.goncalo.swordchallenge.presentation.bottombar.BottomNavigationBarUI
 import com.goncalo.swordchallenge.presentation.catlist.screen.CatListScreen
 import com.goncalo.swordchallenge.presentation.catlist.viewmodel.CatListViewModel
+import com.goncalo.swordchallenge.presentation.common.ScreenCatList
 import com.goncalo.swordchallenge.ui.theme.SwordChallengeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        val viewModel: CatListViewModel by viewModels()
-
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             SwordChallengeTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                val viewModel : CatListViewModel by viewModels()
+                val navController = rememberNavController()
+
+                Scaffold(modifier = Modifier.fillMaxSize(), bottomBar = {
+                    BottomNavigationBarUI(
+                        navController = navController
+                    )
+                }) { innerPadding ->
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding)
                     ) {
-                        CatListScreen(viewModel = viewModel)
+                        NavHost(
+                            navController = navController, startDestination = ScreenCatList
+                        ) {
+                            composable<ScreenCatList> {
+                                CatListScreen(viewModel = viewModel)
+                            }
+                        }
                     }
                 }
             }
