@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import com.goncalo.swordchallenge.common.API_BASE_URL
 import com.goncalo.swordchallenge.common.DB_NAME
-import com.goncalo.swordchallenge.data.db.CatInformationDao
 import com.goncalo.swordchallenge.data.network.CatInformationApi
 import com.goncalo.swordchallenge.data.repository.CatInformationRepository
 import com.goncalo.swordchallenge.database.SwordDatabase
@@ -41,13 +40,9 @@ object AppModule {
     @Singleton
     fun provideCatApi(retrofit: Retrofit) = retrofit.create(CatInformationApi::class.java)
 
-    @Provides
-    @Singleton
-    fun provideCatInformationDao(swordDatabase: SwordDatabase) = swordDatabase.catInformationDao()
-
     @Singleton
     @Provides
-    fun provideCatInformationRepository(api: CatInformationApi, dao: CatInformationDao): CatInformationRepository =
-        CatInformationRepositoryImpl(api, dao)
+    fun provideCatInformationRepository(api: CatInformationApi, db: SwordDatabase): CatInformationRepository =
+        CatInformationRepositoryImpl(api, db)
 
 }

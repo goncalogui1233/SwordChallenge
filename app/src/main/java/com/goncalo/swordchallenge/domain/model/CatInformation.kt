@@ -1,6 +1,7 @@
 package com.goncalo.swordchallenge.domain.model
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -18,6 +19,15 @@ data class CatInformation(
     val origin: String,
     val description: String,
     @ColumnInfo(name = "life_span") val lifeSpan: String,
+
+    val isFavourite: Boolean = false
+)
+
+@Entity
+data class CatFavouriteInformation(
+    @PrimaryKey(autoGenerate = true) val favId: Int? = null,
+    @Embedded
+    val catInformation: CatInformation
 )
 
 fun List<CatApiInformation>.toCatInformationList(): List<CatInformation> {
