@@ -67,7 +67,7 @@ fun CatListScreen(modifier: Modifier = Modifier, viewModel: CatListViewModel) {
                 items(count = listItems.itemCount) {
                     val catItem = listItems[it]
                     catItem?.let { item ->
-                        CatListItem(item = item) {
+                        CatListItem(modifier = Modifier.padding(10.dp), item = item) {
                             viewModel.changeCatFavouriteStatus(item)
                         }
                     }

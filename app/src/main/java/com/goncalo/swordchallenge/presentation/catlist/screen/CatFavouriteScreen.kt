@@ -1,6 +1,7 @@
 package com.goncalo.swordchallenge.presentation.catlist.screen
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -38,7 +39,11 @@ fun CatFavouriteScreen(modifier: Modifier = Modifier, viewModel: CatListViewMode
 }
 
 @Composable
-fun FavouriteList(modifier: Modifier = Modifier, favouriteItems: List<CatInformation>, onFavouriteClick: (CatInformation) -> Unit) {
+private fun FavouriteList(
+    modifier: Modifier = Modifier,
+    favouriteItems: List<CatInformation>,
+    onFavouriteClick: (CatInformation) -> Unit
+) {
     LazyVerticalGrid(modifier = modifier, columns = GridCells.Fixed(3)) {
         item(span = { GridItemSpan(maxLineSpan) }) {
             Text(
@@ -55,7 +60,7 @@ fun FavouriteList(modifier: Modifier = Modifier, favouriteItems: List<CatInforma
         }
 
         items(favouriteItems) {
-            CatListItem(item = it) {
+            CatFavouriteListItem(catInformation = it) {
                 onFavouriteClick(it)
             }
         }
@@ -63,7 +68,27 @@ fun FavouriteList(modifier: Modifier = Modifier, favouriteItems: List<CatInforma
 }
 
 @Composable
-fun FavouriteEmptyState(modifier: Modifier = Modifier) {
+private fun CatFavouriteListItem(
+    modifier: Modifier = Modifier,
+    catInformation: CatInformation,
+    onFavouriteClick: () -> Unit
+) {
+    Column(
+        modifier = modifier.padding(10.dp)
+    ) {
+        CatListItem(item = catInformation) {
+            onFavouriteClick()
+        }
+
+        Text(
+            text = "Life Span: ${catInformation.lifeSpan.split("-").last().trim()}",
+            modifier = Modifier.padding(top = 5.dp)
+        )
+    }
+}
+
+@Composable
+private fun FavouriteEmptyState(modifier: Modifier = Modifier) {
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Text(
             text = "No Favourite Cats. Go back to the list and add cats that you like",
