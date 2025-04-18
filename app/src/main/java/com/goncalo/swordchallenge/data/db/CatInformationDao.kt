@@ -11,8 +11,8 @@ import com.goncalo.swordchallenge.domain.model.CatInformation
 @Dao
 interface CatInformationDao {
 
-    @Query("SELECT * FROM catinformation")
-    fun getAllCatsPaging(): PagingSource<Int, CatInformation>
+    @Query("SELECT * FROM catinformation where (breedName like '%' || :breedName || '%' or :breedName == '') ")
+    fun getAllCatsPaging(breedName: String): PagingSource<Int, CatInformation>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCat(catInformation: CatInformation)

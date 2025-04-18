@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.goncalo.swordchallenge.data.repository.CatInformationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 @HiltViewModel
@@ -12,6 +14,15 @@ class CatListViewModel @Inject constructor(
     private val catInformationRepository: CatInformationRepository
 ) : ViewModel() {
 
-    val catList = catInformationRepository.getCatList().cachedIn(viewModelScope)
+    private var breedName = MutableStateFlow("")
+
+    val catList = breedName.flatMapLatest { b ->
+        catInformationRepository.getCatList(b)
+    }.cachedIn(viewModelScope)
+
+    fun setBreedName(name: String) {
+        breedName.value = name
+    }
+
 
 }

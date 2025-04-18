@@ -17,13 +17,15 @@ class CatInformationRepositoryImpl @Inject constructor(
     private val catInformationDao: CatInformationDao
 ) : CatInformationRepository {
 
+    private val remoteMediator = CatRemoteMediator(catInformationApi, catInformationDao)
+
     @OptIn(ExperimentalPagingApi::class)
-    override fun getCatList(): Flow<PagingData<CatInformation>> {
+    override fun getCatList(breedName: String): Flow<PagingData<CatInformation>> {
         return Pager(
             config = PagingConfig(pageSize = 10),
-            remoteMediator =  CatRemoteMediator(catInformationApi, catInformationDao) ,
+            remoteMediator = if (breedName.isEmpty()) remoteMediator else null
         ) {
-            catInformationDao.getAllCatsPaging()
+            catInformationDao.getAllCatsPaging(breedName)
         }.flow
     }
 }

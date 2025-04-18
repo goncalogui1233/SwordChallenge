@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface CatInformationRepository {
 
-    fun getCatList(): Flow<PagingData<CatInformation>>
+    fun getCatList(breedName: String): Flow<PagingData<CatInformation>>
 
 }
