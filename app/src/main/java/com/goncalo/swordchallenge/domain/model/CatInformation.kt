@@ -23,13 +23,6 @@ data class CatInformation(
     val isFavourite: Boolean = false
 )
 
-@Entity
-data class CatFavouriteInformation(
-    @PrimaryKey(autoGenerate = true) val favId: Int? = null,
-    @Embedded
-    val catInformation: CatInformation
-)
-
 fun List<CatApiInformation>.toCatInformationList(): List<CatInformation> {
     val catInformationList = arrayListOf<CatInformation>()
     this.forEach { catApiInformation ->
