@@ -6,13 +6,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,11 +32,12 @@ import coil3.compose.AsyncImage
 import com.goncalo.swordchallenge.R
 import com.goncalo.swordchallenge.domain.model.classes.CatInformation
 import com.goncalo.swordchallenge.presentation.catdetail.viewmodel.CatDetailViewModel
-import com.goncalo.swordchallenge.presentation.common.ShimmerEffect
+import com.goncalo.swordchallenge.presentation.catdetail.views.CatDetailError
+import com.goncalo.swordchallenge.presentation.catdetail.views.CatDetailLoading
 import com.goncalo.swordchallenge.presentation.common.UIState
 
 @Composable
-fun CatDetailScreen(modifier: Modifier = Modifier, viewModel: CatDetailViewModel, catId: String, onFavouriteClick: (CatInformation) -> Unit) {
+fun CatDetailScreen(modifier: Modifier = Modifier, viewModel: CatDetailViewModel, catId: String) {
 
     LaunchedEffect(Unit) {
         viewModel.getCatDetails(catId)
@@ -45,7 +46,6 @@ fun CatDetailScreen(modifier: Modifier = Modifier, viewModel: CatDetailViewModel
     val catDetailState = viewModel.uiState.collectAsStateWithLifecycle().value
 
     when(catDetailState) {
-
         is UIState.Loading -> {
             CatDetailLoading()
         }
@@ -59,41 +59,9 @@ fun CatDetailScreen(modifier: Modifier = Modifier, viewModel: CatDetailViewModel
         }
 
         is UIState.Error -> {
-            Text(text = catDetailState.message ?: "Unknown error, try again later")
+            CatDetailError(errorMessage = catDetailState.message, modifier = Modifier.fillMaxSize())
         }
-
     }
-}
-
-@Composable
-fun CatDetailLoading(modifier: Modifier = Modifier) {
-
-    Column(
-        modifier = modifier
-    ) {
-        ShimmerEffect(
-            modifier = Modifier
-                .fillMaxWidth()
-                .size(325.dp)
-                .padding(bottom = 16.dp)
-                .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
-        )
-        ShimmerEffect(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(32.dp)
-                .padding(start = 8.dp, bottom = 16.dp, end = 8.dp)
-                .clip(RoundedCornerShape(12.dp))
-        )
-        ShimmerEffect(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(128.dp)
-                .padding(start = 8.dp, bottom = 16.dp, end = 8.dp)
-                .clip(RoundedCornerShape(12.dp))
-        )
-    }
-
 }
 
 @Composable
@@ -115,33 +83,8 @@ fun CatDetails(
                 .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
         )
 
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 8.dp, top = 16.dp, end = 8.dp)
-        ) {
-            Text(
-                text = details.breedName,
-                style = TextStyle(
-                    fontSize = 24.sp,
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold
-                ),
-            )
-
-            val starIcon =
-                if (details.isFavourite) R.drawable.star_filled else R.drawable.star_outline
-            Icon(
-                painter = painterResource(id = starIcon),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(32.dp)
-                    .clickable {
-                        onFavouriteClick()
-                    }
-            )
+        CatDetailNameAndFavorite(details = details) {
+            onFavouriteClick()
         }
 
         Text(
@@ -173,8 +116,44 @@ fun CatDetails(
         )
 
     }
-
 }
+
+@Composable
+fun CatDetailNameAndFavorite(
+    modifier: Modifier = Modifier,
+    details: CatInformation,
+    onFavouriteClick: () -> Unit
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 8.dp, top = 16.dp, end = 8.dp)
+    ) {
+        Text(
+            text = details.breedName,
+            style = TextStyle(
+                fontSize = 24.sp,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold
+            ),
+        )
+
+        val starIcon =
+            if (details.isFavourite) R.drawable.star_filled else R.drawable.star_outline
+        Icon(
+            painter = painterResource(id = starIcon),
+            contentDescription = null,
+            modifier = Modifier
+                .size(32.dp)
+                .clickable {
+                    onFavouriteClick()
+                }
+        )
+    }
+}
+
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable

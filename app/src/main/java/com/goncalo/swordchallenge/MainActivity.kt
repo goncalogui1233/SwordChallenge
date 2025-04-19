@@ -79,9 +79,7 @@ class MainActivity : ComponentActivity() {
 
                             composable<CatDetailScreen> {
                                 val catId = it.toRoute<CatDetailScreen>().catId
-                                CatDetailScreen(viewModel = catDetailViewModel, catId = catId) { catInformation ->
-                                    catListViewModel.changeCatFavouriteStatus(catInformation)
-                                }
+                                CatDetailScreen(viewModel = catDetailViewModel, catId = catId)
                             }
                         }
                     }
