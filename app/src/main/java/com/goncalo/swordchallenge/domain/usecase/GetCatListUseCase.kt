@@ -3,7 +3,7 @@ package com.goncalo.swordchallenge.domain.usecase
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.goncalo.swordchallenge.domain.repository.CatInformationRepository
-import com.goncalo.swordchallenge.domain.model.CatInformation
+import com.goncalo.swordchallenge.domain.model.classes.CatInformation
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

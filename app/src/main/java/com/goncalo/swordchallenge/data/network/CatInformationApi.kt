@@ -1,9 +1,10 @@
 package com.goncalo.swordchallenge.data.network
 
-import com.goncalo.swordchallenge.domain.model.CatApiInformation
+import com.goncalo.swordchallenge.domain.model.classes.CatApiInformation
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface CatInformationApi {
@@ -25,5 +26,12 @@ interface CatInformationApi {
         @Query("has_breeds") hasBreeds: Boolean = true,
         @Header("x-api-key") apiKey: String = API_KEY
     ): Response<List<CatApiInformation>>
+
+
+    @GET("v1/images/{imageId}")
+    suspend fun getCatDetails(
+        @Path("imageId") imageId: String,
+        @Header("x-api-key") apiKey: String = API_KEY
+    ): Response<CatApiInformation>
 
 }

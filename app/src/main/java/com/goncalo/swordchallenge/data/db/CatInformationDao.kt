@@ -7,7 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.goncalo.swordchallenge.domain.model.CatInformation
+import com.goncalo.swordchallenge.domain.model.classes.CatInformation
 
 @Dao
 interface CatInformationDao {
@@ -17,6 +17,9 @@ interface CatInformationDao {
 
     @Query("SELECT * FROM catinformation where (breedName like '%' || :breedName || '%' or :breedName == '') ")
     fun getAllCatsPaging(breedName: String): PagingSource<Int, CatInformation>
+
+    @Query("SELECT * FROM catinformation where id = :catId")
+    fun getCatBreedById(catId: String): CatInformation?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCat(catInformation: CatInformation)

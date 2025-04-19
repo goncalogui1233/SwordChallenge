@@ -1,7 +1,6 @@
-package com.goncalo.swordchallenge.domain.model
+package com.goncalo.swordchallenge.domain.model.classes
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -26,22 +25,22 @@ data class CatInformation(
 fun List<CatApiInformation>.toCatInformationList(): List<CatInformation> {
     val catInformationList = arrayListOf<CatInformation>()
     this.forEach { catApiInformation ->
-        val breed = catApiInformation.breeds.first()
-        catInformationList.add(
-            CatInformation(
-                id = catApiInformation.id,
-                breedId = breed.id,
-                url = catApiInformation.url,
-                breedName = breed.name,
-                temperament = breed.temperament,
-                origin = breed.origin,
-                description = breed.description,
-                lifeSpan = breed.lifeSpan
-            )
-        )
+        catInformationList.add(catApiInformation.toCatInformation())
     }
 
     return catInformationList
 }
+
+
+fun CatApiInformation.toCatInformation() = CatInformation(
+    id = this.id,
+    breedId = this.id,
+    url = this.url,
+    breedName = this.breeds.first().name,
+    temperament = this.breeds.first().temperament,
+    origin = this.breeds.first().origin,
+    description = this.breeds.first().description,
+    lifeSpan = this.breeds.first().lifeSpan
+)
 
 

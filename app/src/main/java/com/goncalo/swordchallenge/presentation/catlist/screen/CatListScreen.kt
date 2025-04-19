@@ -31,14 +31,17 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.goncalo.swordchallenge.presentation.catlist.viewmodel.CatListViewModel
 import com.goncalo.swordchallenge.presentation.catlist.views.CatListItem
+import com.goncalo.swordchallenge.presentation.common.CatDetailScreen
+import com.goncalo.swordchallenge.presentation.common.ScreenCatFavourite
 import com.goncalo.swordchallenge.presentation.common.ShimmerEffect
 
 @Composable
-fun CatListScreen(modifier: Modifier = Modifier, viewModel: CatListViewModel) {
+fun CatListScreen(modifier: Modifier = Modifier, viewModel: CatListViewModel, navController: NavController) {
     val listItems = viewModel.catList.collectAsLazyPagingItems()
 
     Column(modifier = modifier.fillMaxSize()) {
@@ -67,8 +70,10 @@ fun CatListScreen(modifier: Modifier = Modifier, viewModel: CatListViewModel) {
                 items(count = listItems.itemCount) {
                     val catItem = listItems[it]
                     catItem?.let { item ->
-                        CatListItem(modifier = Modifier.padding(10.dp), item = item) {
+                        CatListItem(modifier = Modifier.padding(10.dp), item = item, onFavouriteClick = {
                             viewModel.changeCatFavouriteStatus(item)
+                        }) {
+                            navController.navigate(CatDetailScreen(item.id))
                         }
                     }
                 }

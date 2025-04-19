@@ -1,8 +1,10 @@
 package com.goncalo.swordchallenge.domain.repository
 
 import androidx.paging.PagingData
-import com.goncalo.swordchallenge.domain.model.CatFavouriteInformation
-import com.goncalo.swordchallenge.domain.model.CatInformation
+import com.goncalo.swordchallenge.domain.model.classes.CatFavouriteInformation
+import com.goncalo.swordchallenge.domain.model.classes.CatInformation
+import com.goncalo.swordchallenge.domain.model.enums.CatDetailRequestSource
+import com.goncalo.swordchallenge.domain.model.helpers.Status
 import kotlinx.coroutines.flow.Flow
 
 interface CatInformationRepository {
@@ -13,9 +15,11 @@ interface CatInformationRepository {
 
     fun getCatFavouriteListFlow(): Flow<List<CatFavouriteInformation>>
 
-    suspend fun insertCatFavourite(catFavouriteInformation: CatFavouriteInformation)
+    suspend fun insertCatFavourite(catFavouriteInformation: CatFavouriteInformation): Status<Long>
 
-    suspend fun deleteCatFavourite(catInformation: CatInformation)
+    suspend fun deleteCatFavourite(catInformation: CatInformation): Status<Long>
+
+    suspend fun getCatDetails(imageId: String, detailSource: CatDetailRequestSource): Status<CatInformation>
 
 
 }

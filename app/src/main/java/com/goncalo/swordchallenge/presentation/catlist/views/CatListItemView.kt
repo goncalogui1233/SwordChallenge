@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -24,12 +23,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.goncalo.swordchallenge.R
-import com.goncalo.swordchallenge.domain.model.CatInformation
+import com.goncalo.swordchallenge.domain.model.classes.CatInformation
 
 @Composable
-fun CatListItem(modifier: Modifier = Modifier, item: CatInformation, onFavouriteClick: () -> Unit) {
+fun CatListItem(modifier: Modifier = Modifier, item: CatInformation, onFavouriteClick: () -> Unit, onItemClicked: () -> Unit) {
     Box(
-        modifier = modifier
+        modifier = modifier.clickable { onItemClicked() }
     ) {
         Column {
             AsyncImage(

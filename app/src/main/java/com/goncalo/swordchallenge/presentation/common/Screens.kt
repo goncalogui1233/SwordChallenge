@@ -17,6 +17,6 @@ data object ScreenCatList : BottomBarScreen("Cat List", Icons.Default.Home)
 data object ScreenCatFavourite : BottomBarScreen("Favourite List", Icons.Default.Favorite)
 
 @Serializable
-data object CatDetailScreen
+data class CatDetailScreen(val catId: String)
 
 fun getBottomBarScreens() = listOf(ScreenCatList, ScreenCatFavourite)

@@ -1,4 +1,4 @@
-package com.goncalo.swordchallenge.domain.model
+package com.goncalo.swordchallenge.domain.model.classes
 
 import com.google.gson.annotations.SerializedName
 

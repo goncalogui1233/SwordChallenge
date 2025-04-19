@@ -9,9 +9,12 @@ import com.goncalo.swordchallenge.data.datastore.CatDataStore
 import com.goncalo.swordchallenge.data.network.CatInformationApi
 import com.goncalo.swordchallenge.data.paging.CatRemoteMediator
 import com.goncalo.swordchallenge.database.SwordDatabase
-import com.goncalo.swordchallenge.domain.model.CatFavouriteInformation
-import com.goncalo.swordchallenge.domain.model.CatInformation
+import com.goncalo.swordchallenge.domain.model.classes.CatFavouriteInformation
+import com.goncalo.swordchallenge.domain.model.classes.CatInformation
+import com.goncalo.swordchallenge.domain.model.helpers.Status
 import com.goncalo.swordchallenge.domain.repository.CatInformationRepository
+import com.goncalo.swordchallenge.domain.model.classes.toCatInformation
+import com.goncalo.swordchallenge.domain.model.enums.CatDetailRequestSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -46,13 +49,61 @@ class CatInformationRepositoryImpl @Inject constructor(
 
     override fun getCatFavouriteListFlow(): Flow<List<CatFavouriteInformation>> = db.catFavouriteDao().getAllFavouriteCatsFlow()
 
-    override suspend fun insertCatFavourite(catFavouriteInformation: CatFavouriteInformation) {
-        db.catFavouriteDao().insertNewFavourite(catFavouriteInformation)
-        db.catInformationDao().updateCat(catFavouriteInformation.catInformation)
+    override suspend fun insertCatFavourite(catFavouriteInformation: CatFavouriteInformation): Status<Long> {
+        return try {
+            val insertedRowId = db.catFavouriteDao().insertNewFavourite(catFavouriteInformation)
+            db.catInformationDao().updateCat(catFavouriteInformation.catInformation)
+            Status(isSuccess = true, content = insertedRowId)
+        } catch (e: Exception) {
+            Status(isSuccess = false)
+        }
     }
 
-    override suspend fun deleteCatFavourite(catInformation: CatInformation) {
-        db.catFavouriteDao().removeFavourite(catInformation.id)
-        db.catInformationDao().updateCat(catInformation)
+    override suspend fun deleteCatFavourite(catInformation: CatInformation): Status<Long> {
+        return try {
+            val removedRows = db.catFavouriteDao().removeFavourite(catInformation.id)
+            if (removedRows > 0) {
+                db.catInformationDao().updateCat(catInformation)
+            }
+
+            Status(isSuccess = removedRows > 0, content = removedRows.toLong())
+        } catch (e: Exception) {
+            Status(isSuccess = false)
+        }
     }
+
+    override suspend fun getCatDetails(imageId: String, detailSource: CatDetailRequestSource): Status<CatInformation> {
+        return try {
+            val response = catInformationApi.getCatDetails(imageId)
+
+            if(response.isSuccessful) {
+                Status(isSuccess = true, content = response.body()?.toCatInformation())
+            } else {
+                val catDetailsDB = getCatDetailsFromDB(imageId, detailSource)
+                Status(isSuccess = catDetailsDB != null, content = catDetailsDB)
+            }
+        } catch (e: Exception) {
+            val catDetailsDB = getCatDetailsFromDB(imageId, detailSource)
+            Status(isSuccess = catDetailsDB != null, content = catDetailsDB)
+        }
+    }
+
+
+    private fun getCatDetailsFromDB(
+        imageId: String,
+        detailSource: CatDetailRequestSource
+    ): CatInformation? {
+        return try {
+            when (detailSource) {
+                CatDetailRequestSource.BREED_LIST -> db.catInformationDao().getCatBreedById(imageId)
+                CatDetailRequestSource.FAVOURITE_LIST -> db.catFavouriteDao()
+                    .getFavouriteCatById(imageId)?.catInformation
+            }
+
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+
 }

@@ -7,8 +7,8 @@ import androidx.paging.RemoteMediator
 import com.goncalo.swordchallenge.data.datastore.CatDataStore
 import com.goncalo.swordchallenge.data.db.CatInformationDao
 import com.goncalo.swordchallenge.data.network.CatInformationApi
-import com.goncalo.swordchallenge.domain.model.CatInformation
-import com.goncalo.swordchallenge.domain.model.toCatInformationList
+import com.goncalo.swordchallenge.domain.model.classes.CatInformation
+import com.goncalo.swordchallenge.domain.model.classes.toCatInformationList
 
 @OptIn(ExperimentalPagingApi::class)
 class CatRemoteMediator(

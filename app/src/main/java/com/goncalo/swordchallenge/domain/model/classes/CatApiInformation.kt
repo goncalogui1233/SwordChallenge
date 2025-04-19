@@ -1,4 +1,4 @@
-package com.goncalo.swordchallenge.domain.model
+package com.goncalo.swordchallenge.domain.model.classes
 
 /**
  * Class to be used when getting cat information from the API

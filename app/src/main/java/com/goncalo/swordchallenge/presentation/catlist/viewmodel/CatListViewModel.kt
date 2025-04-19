@@ -1,12 +1,12 @@
 package com.goncalo.swordchallenge.presentation.catlist.viewmodel
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.goncalo.swordchallenge.domain.model.CatInformation
+import com.goncalo.swordchallenge.domain.model.classes.CatInformation
 import com.goncalo.swordchallenge.domain.usecase.AddCatToFavoriteUseCase
 import com.goncalo.swordchallenge.domain.usecase.GetCatFavouriteListUseCase
 import com.goncalo.swordchallenge.domain.usecase.GetCatListUseCase
 import com.goncalo.swordchallenge.domain.usecase.RemoveCatFromFavoriteUseCase
+import com.goncalo.swordchallenge.presentation.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -20,7 +20,7 @@ class CatListViewModel @Inject constructor(
     private val removeCatFromFavoriteUseCase: RemoveCatFromFavoriteUseCase,
     private val getCatFavouriteListUseCase: GetCatFavouriteListUseCase,
     private val getCatListUseCase: GetCatListUseCase
-) : ViewModel() {
+) : BaseViewModel(addCatToFavoriteUseCase, removeCatFromFavoriteUseCase) {
 
     private var breedNameSearch = MutableStateFlow("")
     private var forceUpdateCatList = MutableStateFlow(false)
@@ -41,13 +41,11 @@ class CatListViewModel @Inject constructor(
     }
 
     fun changeCatFavouriteStatus(catInformation: CatInformation) = viewModelScope.launch {
-        if (catInformation.isFavourite) {
-            removeCatFromFavoriteUseCase(catInformation)
-        } else {
-            addCatToFavoriteUseCase(catInformation)
-        }
+        setCatFavouriteStatus(catInformation)
 
         //Force update the cat list to refresh the favourite status
         forceUpdateCatList.value = !forceUpdateCatList.value
     }
+
+
 }

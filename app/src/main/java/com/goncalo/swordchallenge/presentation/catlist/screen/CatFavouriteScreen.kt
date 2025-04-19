@@ -18,7 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.goncalo.swordchallenge.domain.model.CatInformation
+import com.goncalo.swordchallenge.domain.model.classes.CatInformation
 import com.goncalo.swordchallenge.presentation.catlist.viewmodel.CatListViewModel
 import com.goncalo.swordchallenge.presentation.catlist.views.CatListItem
 
@@ -76,8 +76,10 @@ private fun CatFavouriteListItem(
     Column(
         modifier = modifier.padding(10.dp)
     ) {
-        CatListItem(item = catInformation) {
+        CatListItem(item = catInformation, onFavouriteClick = {
             onFavouriteClick()
+        }) {
+
         }
 
         Text(
