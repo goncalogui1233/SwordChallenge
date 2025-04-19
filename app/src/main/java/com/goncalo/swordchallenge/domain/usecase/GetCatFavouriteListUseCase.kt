@@ -1,6 +1,6 @@
 package com.goncalo.swordchallenge.domain.usecase
 
-import com.goncalo.swordchallenge.data.repository.CatInformationRepository
+import com.goncalo.swordchallenge.domain.repository.CatInformationRepository
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package com.goncalo.swordchallenge.domain.repository
+package com.goncalo.swordchallenge.data.repository
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
@@ -8,10 +8,10 @@ import androidx.paging.map
 import com.goncalo.swordchallenge.data.datastore.CatDataStore
 import com.goncalo.swordchallenge.data.network.CatInformationApi
 import com.goncalo.swordchallenge.data.paging.CatRemoteMediator
-import com.goncalo.swordchallenge.data.repository.CatInformationRepository
 import com.goncalo.swordchallenge.database.SwordDatabase
 import com.goncalo.swordchallenge.domain.model.CatFavouriteInformation
 import com.goncalo.swordchallenge.domain.model.CatInformation
+import com.goncalo.swordchallenge.domain.repository.CatInformationRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

@@ -2,7 +2,6 @@ package com.goncalo.swordchallenge.presentation.catlist.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.goncalo.swordchallenge.data.repository.CatInformationRepository
 import com.goncalo.swordchallenge.domain.model.CatInformation
 import com.goncalo.swordchallenge.domain.usecase.AddCatToFavoriteUseCase
 import com.goncalo.swordchallenge.domain.usecase.GetCatFavouriteListUseCase

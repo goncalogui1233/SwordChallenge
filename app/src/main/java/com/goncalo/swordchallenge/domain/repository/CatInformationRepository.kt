@@ -1,4 +1,4 @@
-package com.goncalo.swordchallenge.data.repository
+package com.goncalo.swordchallenge.domain.repository
 
 import androidx.paging.PagingData
 import com.goncalo.swordchallenge.domain.model.CatFavouriteInformation

@@ -1,6 +1,6 @@
 package com.goncalo.swordchallenge.domain.usecase
 
-import com.goncalo.swordchallenge.data.repository.CatInformationRepository
+import com.goncalo.swordchallenge.domain.repository.CatInformationRepository
 import com.goncalo.swordchallenge.domain.model.CatFavouriteInformation
 import com.goncalo.swordchallenge.domain.model.CatInformation
 import javax.inject.Inject
