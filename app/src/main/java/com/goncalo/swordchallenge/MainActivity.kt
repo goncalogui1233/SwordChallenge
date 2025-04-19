@@ -18,6 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.goncalo.swordchallenge.data.datastore.CatDataStore
+import com.goncalo.swordchallenge.domain.usecase.SetAppStartupFlagUseCase
 import com.goncalo.swordchallenge.presentation.bottombar.BottomNavigationBarUI
 import com.goncalo.swordchallenge.presentation.catdetail.screen.CatDetailScreen
 import com.goncalo.swordchallenge.presentation.catdetail.viewmodel.CatDetailViewModel
@@ -35,7 +36,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject lateinit var dataStore: CatDataStore
+    @Inject lateinit var setAppStartupFlagUseCase: SetAppStartupFlagUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +44,7 @@ class MainActivity : ComponentActivity() {
         //If null, app is being launched for the first time, so reset app startup flag to force new load on ScreenCatList
         if(savedInstanceState == null) {
             lifecycleScope.launch {
-                dataStore.saveAppStartupFlag(true)
+                setAppStartupFlagUseCase(true)
             }
         }
 
