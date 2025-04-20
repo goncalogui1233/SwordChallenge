@@ -10,9 +10,4 @@ data class Breed(
     val origin: String,
     val description: String,
     @SerializedName("life_span") val lifeSpan: String,
-    @SerializedName("cfa_url") val cfaUrl: String,
-    @SerializedName("vetstreet_url") val vetstreetUrl: String,
-    @SerializedName("vcahospitals_url") val vcahospitalsUrl: String,
-    @SerializedName("country_codes") val countryCodes: String,
-    @SerializedName("country_code") val countryCode: String,
 )
