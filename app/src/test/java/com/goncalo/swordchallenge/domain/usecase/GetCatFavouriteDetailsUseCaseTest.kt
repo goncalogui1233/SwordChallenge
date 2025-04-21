@@ -1,7 +1,7 @@
 package com.goncalo.swordchallenge.domain.usecase
 
 import com.goncalo.swordchallenge.data.repository.FakeCatInformationRepository
-import com.goncalo.swordchallenge.data.mappers.CatDBFavouriteInformation
+import com.goncalo.data.mappers.CatDBFavouriteInformation
 import com.goncalo.domain.model.classes.CatInformation
 import com.goncalo.domain.repository.CatInformationRepository
 import com.goncalo.domain.usecase.GetCatFavouriteDetailsUseCase

@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.room.Room
 import com.goncalo.swordchallenge.common.API_BASE_URL
 import com.goncalo.swordchallenge.common.DB_NAME
-import com.goncalo.swordchallenge.data.datastore.CatDataStore
-import com.goncalo.swordchallenge.data.network.CatInformationApi
-import com.goncalo.swordchallenge.data.repository.AppSettingsRepositoryImpl
+import com.goncalo.data.datastore.CatDataStore
+import com.goncalo.data.network.CatInformationApi
+import com.goncalo.data.repository.AppSettingsRepositoryImpl
 import com.goncalo.domain.repository.CatInformationRepository
-import com.goncalo.swordchallenge.data.db.SwordDatabase
-import com.goncalo.swordchallenge.data.repository.CatInformationRepositoryImpl
+import com.goncalo.data.db.SwordDatabase
+import com.goncalo.data.repository.CatInformationRepositoryImpl
 import com.goncalo.domain.repository.AppSettingsRepository
 import dagger.Module
 import dagger.Provides

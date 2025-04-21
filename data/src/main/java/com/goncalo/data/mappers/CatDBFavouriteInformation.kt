@@ -1,4 +1,4 @@
-package com.goncalo.swordchallenge.data.mappers
+package com.goncalo.data.mappers
 
 import androidx.room.Embedded
 import androidx.room.Entity

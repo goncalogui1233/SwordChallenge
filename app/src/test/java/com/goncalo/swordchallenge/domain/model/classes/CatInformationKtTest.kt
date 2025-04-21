@@ -1,8 +1,8 @@
 package com.goncalo.swordchallenge.domain.model.classes
 
-import com.goncalo.swordchallenge.data.mappers.Breed
-import com.goncalo.swordchallenge.data.mappers.CatApiInformation
-import com.goncalo.swordchallenge.data.mappers.Weight
+import com.goncalo.data.mappers.Breed
+import com.goncalo.data.mappers.CatApiInformation
+import com.goncalo.data.mappers.Weight
 import org.junit.Assert.*
 import org.junit.Test
 

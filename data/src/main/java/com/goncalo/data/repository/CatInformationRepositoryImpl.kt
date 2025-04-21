@@ -1,18 +1,18 @@
-package com.goncalo.swordchallenge.data.repository
+package com.goncalo.data.repository
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.goncalo.swordchallenge.data.datastore.CatDataStore
-import com.goncalo.swordchallenge.data.network.CatInformationApi
-import com.goncalo.swordchallenge.data.paging.CatRemoteMediator
-import com.goncalo.swordchallenge.data.db.SwordDatabase
-import com.goncalo.swordchallenge.data.mappers.toCatDBFavouriteInformation
-import com.goncalo.swordchallenge.data.mappers.toCatDBInformation
-import com.goncalo.swordchallenge.data.mappers.toCatInformation
-import com.goncalo.swordchallenge.data.mappers.toCatInformationList
+import com.goncalo.data.datastore.CatDataStore
+import com.goncalo.data.network.CatInformationApi
+import com.goncalo.data.paging.CatRemoteMediator
+import com.goncalo.data.db.SwordDatabase
+import com.goncalo.data.mappers.toCatDBFavouriteInformation
+import com.goncalo.data.mappers.toCatDBInformation
+import com.goncalo.data.mappers.toCatInformation
+import com.goncalo.data.mappers.toCatInformationList
 import com.goncalo.domain.model.classes.CatInformation
 import com.goncalo.domain.model.helpers.Status
 import com.goncalo.domain.repository.CatInformationRepository

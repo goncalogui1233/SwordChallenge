@@ -4,7 +4,7 @@ import androidx.paging.AsyncPagingDataDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
 import com.goncalo.swordchallenge.data.repository.FakeCatInformationRepository
-import com.goncalo.swordchallenge.data.mappers.CatDBFavouriteInformation
+import com.goncalo.data.mappers.CatDBFavouriteInformation
 import com.goncalo.domain.model.classes.CatInformation
 import com.goncalo.domain.repository.CatInformationRepository
 import com.goncalo.domain.usecase.GetCatListUseCase

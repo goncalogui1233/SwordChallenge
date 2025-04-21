@@ -1,10 +1,10 @@
-package com.goncalo.swordchallenge.data.db
+package com.goncalo.data.db
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.goncalo.swordchallenge.data.mappers.CatDBFavouriteInformation
+import com.goncalo.data.mappers.CatDBFavouriteInformation
 import kotlinx.coroutines.flow.Flow
 
 @Dao

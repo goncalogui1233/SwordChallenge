@@ -1,6 +1,6 @@
-package com.goncalo.swordchallenge.data.network
+package com.goncalo.data.network
 
-import com.goncalo.swordchallenge.data.mappers.CatApiInformation
+import com.goncalo.data.mappers.CatApiInformation
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header

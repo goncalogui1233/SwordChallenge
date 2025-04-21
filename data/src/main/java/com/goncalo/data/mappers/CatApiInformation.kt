@@ -1,4 +1,4 @@
-package com.goncalo.swordchallenge.data.mappers
+package com.goncalo.data.mappers
 
 import com.goncalo.domain.model.classes.CatInformation
 import com.google.gson.annotations.SerializedName

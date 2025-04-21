@@ -1,6 +1,6 @@
-package com.goncalo.swordchallenge.data.repository
+package com.goncalo.data.repository
 
-import com.goncalo.swordchallenge.data.datastore.CatDataStore
+import com.goncalo.data.datastore.CatDataStore
 import com.goncalo.domain.repository.AppSettingsRepository
 import javax.inject.Inject
 

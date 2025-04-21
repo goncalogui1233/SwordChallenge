@@ -56,6 +56,7 @@ android {
 dependencies {
 
     implementation(project(":domain"))
+    implementation(project(":data"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -110,6 +111,6 @@ dependencies {
     //Coroutines Test
     testImplementation(libs.kotlinx.coroutines.test)
 
-    testImplementation("androidx.recyclerview:recyclerview:1.4.0")
+    testImplementation(libs.androidx.recyclerview)
 
 }

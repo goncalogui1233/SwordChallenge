@@ -1,14 +1,14 @@
-package com.goncalo.swordchallenge.data.paging
+package com.goncalo.data.paging
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.goncalo.swordchallenge.data.datastore.CatDataStore
-import com.goncalo.swordchallenge.data.db.CatInformationDao
-import com.goncalo.swordchallenge.data.mappers.CatDBInformation
-import com.goncalo.swordchallenge.data.mappers.toCatDBInformationList
-import com.goncalo.swordchallenge.data.network.CatInformationApi
+import com.goncalo.data.datastore.CatDataStore
+import com.goncalo.data.db.CatInformationDao
+import com.goncalo.data.mappers.CatDBInformation
+import com.goncalo.data.mappers.toCatDBInformationList
+import com.goncalo.data.network.CatInformationApi
 import com.goncalo.domain.model.classes.CatInformation
 
 @OptIn(ExperimentalPagingApi::class)

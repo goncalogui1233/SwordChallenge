@@ -1,10 +1,10 @@
 package com.goncalo.swordchallenge.data.repository
 
 import androidx.paging.PagingData
-import com.goncalo.swordchallenge.data.mappers.CatDBFavouriteInformation
-import com.goncalo.swordchallenge.data.mappers.toCatDBInformation
-import com.goncalo.swordchallenge.data.mappers.toCatInformation
-import com.goncalo.swordchallenge.data.mappers.toCatInformationList
+import com.goncalo.data.mappers.CatDBFavouriteInformation
+import com.goncalo.data.mappers.toCatDBInformation
+import com.goncalo.data.mappers.toCatInformation
+import com.goncalo.data.mappers.toCatInformationList
 import com.goncalo.domain.model.classes.CatInformation
 import com.goncalo.domain.model.enums.CatDetailRequestSource
 import com.goncalo.domain.model.helpers.Status

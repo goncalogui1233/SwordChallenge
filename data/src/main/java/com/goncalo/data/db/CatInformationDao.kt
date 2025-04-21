@@ -1,4 +1,4 @@
-package com.goncalo.swordchallenge.data.db
+package com.goncalo.data.db
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
@@ -7,7 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.goncalo.swordchallenge.data.mappers.CatDBInformation
+import com.goncalo.data.mappers.CatDBInformation
 import com.goncalo.domain.model.classes.CatInformation
 
 @Dao
