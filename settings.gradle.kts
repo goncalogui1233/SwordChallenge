@@ -23,3 +23,4 @@ rootProject.name = "SwordChallenge"
 include(":app")
 include(":domain")
 include(":data")
+include(":presentation")
