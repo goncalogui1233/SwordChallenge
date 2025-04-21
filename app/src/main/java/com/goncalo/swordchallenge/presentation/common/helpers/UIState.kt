@@ -1,4 +1,4 @@
-package com.goncalo.swordchallenge.presentation.common
+package com.goncalo.swordchallenge.presentation.common.helpers
 
 sealed class UIState<out T> {
     data object Loading : UIState<Nothing>()

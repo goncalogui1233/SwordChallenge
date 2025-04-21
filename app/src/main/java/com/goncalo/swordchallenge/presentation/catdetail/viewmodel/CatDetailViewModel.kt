@@ -8,7 +8,7 @@ import com.goncalo.swordchallenge.domain.usecase.GetCatDetailsByIdUseCase
 import com.goncalo.swordchallenge.domain.usecase.GetCatFavouriteDetailsUseCase
 import com.goncalo.swordchallenge.domain.usecase.RemoveCatFromFavoriteUseCase
 import com.goncalo.swordchallenge.presentation.BaseViewModel
-import com.goncalo.swordchallenge.presentation.common.UIState
+import com.goncalo.swordchallenge.presentation.common.helpers.UIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

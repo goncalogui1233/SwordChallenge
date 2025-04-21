@@ -33,9 +33,9 @@ import com.goncalo.swordchallenge.R
 import com.goncalo.swordchallenge.domain.model.classes.CatInformation
 import com.goncalo.swordchallenge.domain.model.enums.CatDetailRequestSource
 import com.goncalo.swordchallenge.presentation.catdetail.viewmodel.CatDetailViewModel
-import com.goncalo.swordchallenge.presentation.catdetail.views.CatDetailError
 import com.goncalo.swordchallenge.presentation.catdetail.views.CatDetailLoading
-import com.goncalo.swordchallenge.presentation.common.UIState
+import com.goncalo.swordchallenge.presentation.common.views.CatErrorMessage
+import com.goncalo.swordchallenge.presentation.common.helpers.UIState
 
 @Composable
 fun CatDetailScreen(
@@ -65,7 +65,7 @@ fun CatDetailScreen(
         }
 
         is UIState.Error -> {
-            CatDetailError(errorMessage = catDetailState.message, modifier = Modifier.fillMaxSize())
+            CatErrorMessage(errorMessage = catDetailState.message, modifier = Modifier.fillMaxSize())
         }
     }
 }

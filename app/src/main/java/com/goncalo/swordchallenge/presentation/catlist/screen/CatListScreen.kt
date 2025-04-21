@@ -35,14 +35,18 @@ import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.goncalo.swordchallenge.domain.model.enums.CatDetailRequestSource
+import com.goncalo.swordchallenge.presentation.common.views.CatErrorMessage
 import com.goncalo.swordchallenge.presentation.catlist.viewmodel.CatListViewModel
 import com.goncalo.swordchallenge.presentation.catlist.views.CatListItem
-import com.goncalo.swordchallenge.presentation.common.CatDetailScreen
-import com.goncalo.swordchallenge.presentation.common.ScreenCatFavourite
-import com.goncalo.swordchallenge.presentation.common.ShimmerEffect
+import com.goncalo.swordchallenge.presentation.common.helpers.CatDetailScreen
+import com.goncalo.swordchallenge.presentation.common.views.ShimmerEffect
 
 @Composable
-fun CatListScreen(modifier: Modifier = Modifier, viewModel: CatListViewModel, navController: NavController) {
+fun CatListScreen(
+    modifier: Modifier = Modifier,
+    viewModel: CatListViewModel,
+    navController: NavController
+) {
     val listItems = viewModel.catList.collectAsLazyPagingItems()
 
     Column(modifier = modifier.fillMaxSize()) {
@@ -56,36 +60,53 @@ fun CatListScreen(modifier: Modifier = Modifier, viewModel: CatListViewModel, na
             viewModel.setBreedName(breedSearch)
         }
 
-        LazyVerticalGrid(columns = GridCells.Fixed(3)) {
+        LazyVerticalGrid(columns = GridCells.Fixed(3), modifier = Modifier.fillMaxSize()) {
             if (listItems.loadState.refresh is LoadState.Loading) {
+                //Loading
                 items(15) {
-                    ShimmerEffect(modifier = Modifier
-                        .width(150.dp)
-                        .height(150.dp)
-                        .padding(10.dp)
-                        .clip(
-                            RoundedCornerShape(12.dp)
-                        ))
+                    ShimmerEffect(
+                        modifier = Modifier
+                            .width(150.dp)
+                            .height(150.dp)
+                            .padding(10.dp)
+                            .clip(
+                                RoundedCornerShape(12.dp)
+                            )
+                    )
                 }
             } else {
-                items(count = listItems.itemCount) {
-                    val catItem = listItems[it]
-                    catItem?.let { item ->
-                        CatListItem(modifier = Modifier.padding(10.dp), item = item, onFavouriteClick = {
-                            viewModel.changeCatFavouriteStatus(item)
-                        }) {
-                            navController.navigate(CatDetailScreen(item.id, CatDetailRequestSource.BREED_LIST.name))
+                if (listItems.itemCount == 0) {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        CatErrorMessage(errorMessage = "No items found to fill the Cat List")
+                    }
+                } else {
+                    items(count = listItems.itemCount) {
+                        val catItem = listItems[it]
+                        catItem?.let { item ->
+                            CatListItem(
+                                modifier = Modifier.padding(10.dp),
+                                item = item,
+                                onFavouriteClick = {
+                                    viewModel.changeCatFavouriteStatus(item)
+                                }) {
+                                navController.navigate(
+                                    CatDetailScreen(
+                                        item.id,
+                                        CatDetailRequestSource.BREED_LIST.name
+                                    )
+                                )
+                            }
                         }
                     }
-                }
 
-                if (listItems.loadState.append is LoadState.Loading) {
-                    item(span = { GridItemSpan(maxLineSpan) }) {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.BottomCenter
-                        ) {
-                            CircularProgressIndicator()
+                    if (listItems.loadState.append is LoadState.Loading) {
+                        item(span = { GridItemSpan(maxLineSpan) }) {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.BottomCenter
+                            ) {
+                                CircularProgressIndicator()
+                            }
                         }
                     }
                 }

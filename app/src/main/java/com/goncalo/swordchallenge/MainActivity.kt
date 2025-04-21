@@ -17,7 +17,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.goncalo.swordchallenge.data.datastore.CatDataStore
 import com.goncalo.swordchallenge.domain.usecase.SetAppStartupFlagUseCase
 import com.goncalo.swordchallenge.presentation.bottombar.BottomNavigationBarUI
 import com.goncalo.swordchallenge.presentation.catdetail.screen.CatDetailScreen
@@ -25,9 +24,9 @@ import com.goncalo.swordchallenge.presentation.catdetail.viewmodel.CatDetailView
 import com.goncalo.swordchallenge.presentation.catlist.screen.CatFavouriteScreen
 import com.goncalo.swordchallenge.presentation.catlist.screen.CatListScreen
 import com.goncalo.swordchallenge.presentation.catlist.viewmodel.CatListViewModel
-import com.goncalo.swordchallenge.presentation.common.CatDetailScreen
-import com.goncalo.swordchallenge.presentation.common.ScreenCatFavourite
-import com.goncalo.swordchallenge.presentation.common.ScreenCatList
+import com.goncalo.swordchallenge.presentation.common.helpers.CatDetailScreen
+import com.goncalo.swordchallenge.presentation.common.helpers.ScreenCatFavourite
+import com.goncalo.swordchallenge.presentation.common.helpers.ScreenCatList
 import com.goncalo.swordchallenge.ui.theme.SwordChallengeTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

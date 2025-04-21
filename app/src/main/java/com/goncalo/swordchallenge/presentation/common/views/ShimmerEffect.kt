@@ -1,4 +1,4 @@
-package com.goncalo.swordchallenge.presentation.common
+package com.goncalo.swordchallenge.presentation.common.views
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode

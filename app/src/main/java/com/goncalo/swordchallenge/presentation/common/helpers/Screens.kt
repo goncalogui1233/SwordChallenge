@@ -1,4 +1,4 @@
-package com.goncalo.swordchallenge.presentation.common
+package com.goncalo.swordchallenge.presentation.common.helpers
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite

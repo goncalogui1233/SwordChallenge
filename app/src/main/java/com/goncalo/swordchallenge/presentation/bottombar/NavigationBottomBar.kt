@@ -11,9 +11,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.goncalo.swordchallenge.presentation.common.ScreenCatFavourite
-import com.goncalo.swordchallenge.presentation.common.ScreenCatList
-import com.goncalo.swordchallenge.presentation.common.getBottomBarScreens
+import com.goncalo.swordchallenge.presentation.common.helpers.ScreenCatFavourite
+import com.goncalo.swordchallenge.presentation.common.helpers.ScreenCatList
+import com.goncalo.swordchallenge.presentation.common.helpers.getBottomBarScreens
 
 @Composable
 fun BottomNavigationBarUI(modifier: Modifier = Modifier, navController: NavHostController) {

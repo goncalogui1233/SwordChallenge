@@ -1,4 +1,4 @@
-package com.goncalo.swordchallenge.presentation.catdetail.views
+package com.goncalo.swordchallenge.presentation.common.views
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 import com.goncalo.swordchallenge.R
 
 @Composable
-fun CatDetailError(modifier: Modifier = Modifier, errorMessage: String?) {
+fun CatErrorMessage(modifier: Modifier = Modifier, errorMessage: String?) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
@@ -34,7 +34,7 @@ fun CatDetailError(modifier: Modifier = Modifier, errorMessage: String?) {
 
         Text(
             text = errorMessage
-                ?: "Error while fetching cat details, \ntry again later.",
+                ?: "Error while fetching information, \ntry again later.",
             style = TextStyle(
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,

@@ -21,9 +21,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.goncalo.swordchallenge.domain.model.classes.CatInformation
 import com.goncalo.swordchallenge.domain.model.enums.CatDetailRequestSource
+import com.goncalo.swordchallenge.presentation.common.views.CatErrorMessage
 import com.goncalo.swordchallenge.presentation.catlist.viewmodel.CatListViewModel
 import com.goncalo.swordchallenge.presentation.catlist.views.CatListItem
-import com.goncalo.swordchallenge.presentation.common.CatDetailScreen
+import com.goncalo.swordchallenge.presentation.common.helpers.CatDetailScreen
 
 @Composable
 fun CatFavouriteScreen(modifier: Modifier = Modifier, viewModel: CatListViewModel, navController: NavController) {
@@ -39,7 +40,10 @@ fun CatFavouriteScreen(modifier: Modifier = Modifier, viewModel: CatListViewMode
             navController.navigate(CatDetailScreen(catId, CatDetailRequestSource.FAVOURITE_LIST.name))
         }
     } else {
-        FavouriteEmptyState()
+        CatErrorMessage(
+            errorMessage = "No Favourite Cats. Go back to the list and add cats that you like.",
+            modifier = Modifier.padding(top = 32.dp)
+        )
     }
 }
 
