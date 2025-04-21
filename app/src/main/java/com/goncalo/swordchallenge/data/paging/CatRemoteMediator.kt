@@ -9,7 +9,7 @@ import com.goncalo.swordchallenge.data.db.CatInformationDao
 import com.goncalo.swordchallenge.data.mappers.CatDBInformation
 import com.goncalo.swordchallenge.data.mappers.toCatDBInformationList
 import com.goncalo.swordchallenge.data.network.CatInformationApi
-import com.goncalo.swordchallenge.domain.model.classes.CatInformation
+import com.goncalo.domain.model.classes.CatInformation
 
 @OptIn(ExperimentalPagingApi::class)
 class CatRemoteMediator(

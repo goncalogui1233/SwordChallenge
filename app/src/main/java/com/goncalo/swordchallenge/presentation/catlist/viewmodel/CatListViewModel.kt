@@ -1,11 +1,11 @@
 package com.goncalo.swordchallenge.presentation.catlist.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.goncalo.swordchallenge.domain.model.classes.CatInformation
-import com.goncalo.swordchallenge.domain.usecase.AddCatToFavoriteUseCase
-import com.goncalo.swordchallenge.domain.usecase.GetCatFavouriteListUseCase
-import com.goncalo.swordchallenge.domain.usecase.GetCatListUseCase
-import com.goncalo.swordchallenge.domain.usecase.RemoveCatFromFavoriteUseCase
+import com.goncalo.domain.model.classes.CatInformation
+import com.goncalo.domain.usecase.AddCatToFavoriteUseCase
+import com.goncalo.domain.usecase.GetCatFavouriteListUseCase
+import com.goncalo.domain.usecase.GetCatListUseCase
+import com.goncalo.domain.usecase.RemoveCatFromFavoriteUseCase
 import com.goncalo.swordchallenge.presentation.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

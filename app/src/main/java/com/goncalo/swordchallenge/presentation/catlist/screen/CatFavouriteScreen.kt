@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.goncalo.swordchallenge.domain.model.classes.CatInformation
-import com.goncalo.swordchallenge.domain.model.enums.CatDetailRequestSource
+import com.goncalo.domain.model.classes.CatInformation
+import com.goncalo.domain.model.enums.CatDetailRequestSource
 import com.goncalo.swordchallenge.presentation.common.views.CatErrorMessage
 import com.goncalo.swordchallenge.presentation.catlist.viewmodel.CatListViewModel
 import com.goncalo.swordchallenge.presentation.catlist.views.CatListItem

@@ -3,7 +3,7 @@ package com.goncalo.swordchallenge.data.mappers
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.goncalo.swordchallenge.domain.model.classes.CatInformation
+import com.goncalo.domain.model.classes.CatInformation
 
 /**
  * Class that maps the information to be saved in the database related to the cat information loaded from the API.

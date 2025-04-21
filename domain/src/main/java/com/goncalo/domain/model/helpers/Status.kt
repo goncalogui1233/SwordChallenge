@@ -1,4 +1,4 @@
-package com.goncalo.swordchallenge.domain.model.helpers
+package com.goncalo.domain.model.helpers
 
 data class Status<out T>(
     val isSuccess: Boolean,

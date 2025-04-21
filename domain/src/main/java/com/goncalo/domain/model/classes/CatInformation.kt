@@ -1,4 +1,4 @@
-package com.goncalo.swordchallenge.domain.model.classes
+package com.goncalo.domain.model.classes
 
 /**
  * Domain class that will transport the cat information between layers (data, presentation, domain)

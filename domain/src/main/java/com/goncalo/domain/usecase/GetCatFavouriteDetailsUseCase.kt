@@ -1,7 +1,7 @@
-package com.goncalo.swordchallenge.domain.usecase
+package com.goncalo.domain.usecase
 
-import com.goncalo.swordchallenge.domain.model.enums.CatDetailRequestSource
-import com.goncalo.swordchallenge.domain.repository.CatInformationRepository
+import com.goncalo.domain.model.enums.CatDetailRequestSource
+import com.goncalo.domain.repository.CatInformationRepository
 import javax.inject.Inject
 
 class GetCatFavouriteDetailsUseCase @Inject constructor(

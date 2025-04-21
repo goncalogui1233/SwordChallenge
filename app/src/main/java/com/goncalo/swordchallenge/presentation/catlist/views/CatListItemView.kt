@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.goncalo.swordchallenge.R
-import com.goncalo.swordchallenge.domain.model.classes.CatInformation
+import com.goncalo.domain.model.classes.CatInformation
 
 @Composable
 fun CatListItem(modifier: Modifier = Modifier, item: CatInformation, onFavouriteClick: () -> Unit, onItemClicked: () -> Unit) {

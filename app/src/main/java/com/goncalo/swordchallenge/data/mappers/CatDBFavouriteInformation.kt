@@ -4,7 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.goncalo.swordchallenge.domain.model.classes.CatInformation
+import com.goncalo.domain.model.classes.CatInformation
 
 /**
  * Class used to save the cat information in a distinct table in order to not lose

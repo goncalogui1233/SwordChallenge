@@ -1,12 +1,12 @@
 package com.goncalo.swordchallenge.presentation.catdetail.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.goncalo.swordchallenge.domain.model.classes.CatInformation
-import com.goncalo.swordchallenge.domain.model.enums.CatDetailRequestSource
-import com.goncalo.swordchallenge.domain.usecase.AddCatToFavoriteUseCase
-import com.goncalo.swordchallenge.domain.usecase.GetCatDetailsByIdUseCase
-import com.goncalo.swordchallenge.domain.usecase.GetCatFavouriteDetailsUseCase
-import com.goncalo.swordchallenge.domain.usecase.RemoveCatFromFavoriteUseCase
+import com.goncalo.domain.model.classes.CatInformation
+import com.goncalo.domain.model.enums.CatDetailRequestSource
+import com.goncalo.domain.usecase.AddCatToFavoriteUseCase
+import com.goncalo.domain.usecase.GetCatDetailsByIdUseCase
+import com.goncalo.domain.usecase.GetCatFavouriteDetailsUseCase
+import com.goncalo.domain.usecase.RemoveCatFromFavoriteUseCase
 import com.goncalo.swordchallenge.presentation.BaseViewModel
 import com.goncalo.swordchallenge.presentation.common.helpers.UIState
 import dagger.hilt.android.lifecycle.HiltViewModel

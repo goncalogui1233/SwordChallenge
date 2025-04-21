@@ -1,4 +1,4 @@
-package com.goncalo.swordchallenge.domain.repository
+package com.goncalo.domain.repository
 
 interface AppSettingsRepository {
 

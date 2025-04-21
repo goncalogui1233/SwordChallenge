@@ -7,10 +7,10 @@ import com.goncalo.swordchallenge.common.DB_NAME
 import com.goncalo.swordchallenge.data.datastore.CatDataStore
 import com.goncalo.swordchallenge.data.network.CatInformationApi
 import com.goncalo.swordchallenge.data.repository.AppSettingsRepositoryImpl
-import com.goncalo.swordchallenge.domain.repository.CatInformationRepository
+import com.goncalo.domain.repository.CatInformationRepository
 import com.goncalo.swordchallenge.data.db.SwordDatabase
 import com.goncalo.swordchallenge.data.repository.CatInformationRepositoryImpl
-import com.goncalo.swordchallenge.domain.repository.AppSettingsRepository
+import com.goncalo.domain.repository.AppSettingsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

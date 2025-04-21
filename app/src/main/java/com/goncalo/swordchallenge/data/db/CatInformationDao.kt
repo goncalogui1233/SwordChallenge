@@ -8,7 +8,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.goncalo.swordchallenge.data.mappers.CatDBInformation
-import com.goncalo.swordchallenge.domain.model.classes.CatInformation
+import com.goncalo.domain.model.classes.CatInformation
 
 @Dao
 interface CatInformationDao {

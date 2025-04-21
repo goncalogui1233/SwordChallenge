@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.goncalo.swordchallenge.domain.model.enums.CatDetailRequestSource
+import com.goncalo.domain.model.enums.CatDetailRequestSource
 import com.goncalo.swordchallenge.presentation.common.views.CatErrorMessage
 import com.goncalo.swordchallenge.presentation.catlist.viewmodel.CatListViewModel
 import com.goncalo.swordchallenge.presentation.catlist.views.CatListItem

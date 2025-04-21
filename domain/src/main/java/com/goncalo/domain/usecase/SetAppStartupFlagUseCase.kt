@@ -1,6 +1,6 @@
-package com.goncalo.swordchallenge.domain.usecase
+package com.goncalo.domain.usecase
 
-import com.goncalo.swordchallenge.domain.repository.AppSettingsRepository
+import com.goncalo.domain.repository.AppSettingsRepository
 import javax.inject.Inject
 
 class SetAppStartupFlagUseCase @Inject constructor(

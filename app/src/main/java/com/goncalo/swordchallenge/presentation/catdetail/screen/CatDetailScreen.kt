@@ -30,8 +30,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.goncalo.swordchallenge.R
-import com.goncalo.swordchallenge.domain.model.classes.CatInformation
-import com.goncalo.swordchallenge.domain.model.enums.CatDetailRequestSource
+import com.goncalo.domain.model.classes.CatInformation
+import com.goncalo.domain.model.enums.CatDetailRequestSource
 import com.goncalo.swordchallenge.presentation.catdetail.viewmodel.CatDetailViewModel
 import com.goncalo.swordchallenge.presentation.catdetail.views.CatDetailLoading
 import com.goncalo.swordchallenge.presentation.common.views.CatErrorMessage
@@ -93,9 +93,9 @@ fun CatDetails(
             onFavouriteClick()
         }
 
-        details.description?.let {
+        details.description?.let { description ->
             Text(
-                text = details.description,
+                text = description,
                 style = TextStyle(
                     fontSize = 16.sp,
                     textAlign = TextAlign.Center,
@@ -121,9 +121,9 @@ fun CatDetails(
         }
 
 
-        details.temperament?.let {
+        details.temperament?.let { temperament ->
             CatDetailsTemperament(
-                temperament = details.temperament,
+                temperament = temperament,
                 modifier = Modifier.padding(start = 8.dp, top = 16.dp, end = 8.dp)
             )
         }
@@ -137,7 +137,7 @@ fun CatDetailNameAndFavorite(
     details: CatInformation,
     onFavouriteClick: () -> Unit
 ) {
-    details.breedName?.let {
+    details.breedName?.let { breedName ->
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -147,7 +147,7 @@ fun CatDetailNameAndFavorite(
         ) {
 
             Text(
-                text = details.breedName,
+                text = breedName,
                 style = TextStyle(
                     fontSize = 24.sp,
                     textAlign = TextAlign.Center,

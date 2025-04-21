@@ -1,7 +1,7 @@
-package com.goncalo.swordchallenge.domain.usecase
+package com.goncalo.domain.usecase
 
-import com.goncalo.swordchallenge.domain.repository.CatInformationRepository
-import com.goncalo.swordchallenge.domain.model.classes.CatInformation
+import com.goncalo.domain.repository.CatInformationRepository
+import com.goncalo.domain.model.classes.CatInformation
 import javax.inject.Inject
 
 class RemoveCatFromFavoriteUseCase @Inject constructor(

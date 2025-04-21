@@ -17,7 +17,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.goncalo.swordchallenge.domain.usecase.SetAppStartupFlagUseCase
+import com.goncalo.domain.usecase.SetAppStartupFlagUseCase
 import com.goncalo.swordchallenge.presentation.bottombar.BottomNavigationBarUI
 import com.goncalo.swordchallenge.presentation.catdetail.screen.CatDetailScreen
 import com.goncalo.swordchallenge.presentation.catdetail.viewmodel.CatDetailViewModel

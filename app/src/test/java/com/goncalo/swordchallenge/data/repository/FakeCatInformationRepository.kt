@@ -5,14 +5,14 @@ import com.goncalo.swordchallenge.data.mappers.CatDBFavouriteInformation
 import com.goncalo.swordchallenge.data.mappers.toCatDBInformation
 import com.goncalo.swordchallenge.data.mappers.toCatInformation
 import com.goncalo.swordchallenge.data.mappers.toCatInformationList
-import com.goncalo.swordchallenge.domain.model.classes.CatInformation
-import com.goncalo.swordchallenge.domain.model.enums.CatDetailRequestSource
-import com.goncalo.swordchallenge.domain.model.helpers.Status
-import com.goncalo.swordchallenge.domain.repository.CatInformationRepository
+import com.goncalo.domain.model.classes.CatInformation
+import com.goncalo.domain.model.enums.CatDetailRequestSource
+import com.goncalo.domain.model.helpers.Status
+import com.goncalo.domain.repository.CatInformationRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-class FakeCatInformationRepository : CatInformationRepository  {
+class FakeCatInformationRepository : CatInformationRepository {
 
     private val breedList = arrayListOf(
         CatInformation(

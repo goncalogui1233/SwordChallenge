@@ -1,9 +1,9 @@
-package com.goncalo.swordchallenge.domain.repository
+package com.goncalo.domain.repository
 
 import androidx.paging.PagingData
-import com.goncalo.swordchallenge.domain.model.classes.CatInformation
-import com.goncalo.swordchallenge.domain.model.enums.CatDetailRequestSource
-import com.goncalo.swordchallenge.domain.model.helpers.Status
+import com.goncalo.domain.model.classes.CatInformation
+import com.goncalo.domain.model.enums.CatDetailRequestSource
+import com.goncalo.domain.model.helpers.Status
 import kotlinx.coroutines.flow.Flow
 
 interface CatInformationRepository {
