@@ -82,10 +82,12 @@ private fun CatFavouriteListItem(
 
         }
 
-        Text(
-            text = "Life Span: ${catInformation.lifeSpan.split("-").last().trim()}",
-            modifier = Modifier.padding(top = 5.dp)
-        )
+        catInformation.lifeSpan?.let { lifeSpan ->
+            Text(
+                text = "Life Span: ${lifeSpan.split("-").last().trim()}",
+                modifier = Modifier.padding(top = 5.dp)
+            )
+        }
     }
 }
 

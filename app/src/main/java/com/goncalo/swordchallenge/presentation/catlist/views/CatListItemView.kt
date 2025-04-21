@@ -39,15 +39,18 @@ fun CatListItem(modifier: Modifier = Modifier, item: CatInformation, onFavourite
                     .clip(RoundedCornerShape(12.dp)),
                 contentScale = ContentScale.Crop
             )
-            Text(
-                text = item.breedName,
-                style = TextStyle(
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    textAlign = TextAlign.Center
-                ),
-                modifier = Modifier.fillMaxWidth().padding(top = 5.dp)
-            )
+
+            item.breedName?.let { name ->
+                Text(
+                    text = name,
+                    style = TextStyle(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        textAlign = TextAlign.Center
+                    ),
+                    modifier = Modifier.fillMaxWidth().padding(top = 5.dp)
+                )
+            }
         }
 
         Box(modifier = Modifier.matchParentSize(), contentAlignment = Alignment.TopEnd) {

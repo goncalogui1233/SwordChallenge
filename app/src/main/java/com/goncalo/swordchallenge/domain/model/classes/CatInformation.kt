@@ -13,11 +13,11 @@ data class CatInformation(
     @PrimaryKey(autoGenerate = false) val id: String,
     val breedId: String,
     val url: String,
-    val breedName: String,
-    val temperament: String,
-    val origin: String,
-    val description: String,
-    @ColumnInfo(name = "life_span") val lifeSpan: String,
+    val breedName: String?,
+    val temperament: String?,
+    val origin: String?,
+    val description: String?,
+    @ColumnInfo(name = "life_span") val lifeSpan: String?,
 
     val isFavourite: Boolean = false
 )
@@ -36,11 +36,11 @@ fun CatApiInformation.toCatInformation() = CatInformation(
     id = this.id,
     breedId = this.id,
     url = this.url,
-    breedName = this.breeds.first().name,
-    temperament = this.breeds.first().temperament,
-    origin = this.breeds.first().origin,
-    description = this.breeds.first().description,
-    lifeSpan = this.breeds.first().lifeSpan
+    breedName = this.breeds.firstOrNull()?.name,
+    temperament = this.breeds.firstOrNull()?.temperament,
+    origin = this.breeds.firstOrNull()?.origin,
+    description = this.breeds.firstOrNull()?.description,
+    lifeSpan = this.breeds.firstOrNull()?.lifeSpan
 )
 
 

@@ -87,33 +87,40 @@ fun CatDetails(
             onFavouriteClick()
         }
 
-        Text(
-            text = details.description,
-            style = TextStyle(
-                fontSize = 16.sp,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Medium
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 8.dp, top = 16.dp, end = 8.dp)
-        )
+        details.description?.let {
+            Text(
+                text = details.description,
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Medium
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 8.dp, top = 16.dp, end = 8.dp)
+            )
+        }
 
-        Text(
-            text = "Origin: ${details.origin}",
-            style = TextStyle(
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 8.dp, top = 16.dp, end = 8.dp)
-        )
+        details.origin?.let {
+            Text(
+                text = "Origin: ${details.origin}",
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Medium
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 8.dp, top = 16.dp, end = 8.dp)
+            )
+        }
 
-        CatDetailsTemperament(
-            temperament = details.temperament,
-            modifier = Modifier.padding(start = 8.dp, top = 16.dp, end = 8.dp)
-        )
+
+        details.temperament?.let {
+            CatDetailsTemperament(
+                temperament = details.temperament,
+                modifier = Modifier.padding(start = 8.dp, top = 16.dp, end = 8.dp)
+            )
+        }
 
     }
 }
@@ -124,33 +131,37 @@ fun CatDetailNameAndFavorite(
     details: CatInformation,
     onFavouriteClick: () -> Unit
 ) {
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 8.dp, top = 16.dp, end = 8.dp)
-    ) {
-        Text(
-            text = details.breedName,
-            style = TextStyle(
-                fontSize = 24.sp,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold
-            ),
-        )
-
-        val starIcon =
-            if (details.isFavourite) R.drawable.star_filled else R.drawable.star_outline
-        Icon(
-            painter = painterResource(id = starIcon),
-            contentDescription = null,
+    details.breedName?.let {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .size(32.dp)
-                .clickable {
-                    onFavouriteClick()
-                }
-        )
+                .fillMaxWidth()
+                .padding(start = 8.dp, top = 16.dp, end = 8.dp)
+        ) {
+
+            Text(
+                text = details.breedName,
+                style = TextStyle(
+                    fontSize = 24.sp,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold
+                ),
+            )
+
+
+            val starIcon =
+                if (details.isFavourite) R.drawable.star_filled else R.drawable.star_outline
+            Icon(
+                painter = painterResource(id = starIcon),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(32.dp)
+                    .clickable {
+                        onFavouriteClick()
+                    }
+            )
+        }
     }
 }
 
