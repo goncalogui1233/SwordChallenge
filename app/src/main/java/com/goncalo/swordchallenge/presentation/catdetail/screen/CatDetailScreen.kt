@@ -31,16 +31,22 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.goncalo.swordchallenge.R
 import com.goncalo.swordchallenge.domain.model.classes.CatInformation
+import com.goncalo.swordchallenge.domain.model.enums.CatDetailRequestSource
 import com.goncalo.swordchallenge.presentation.catdetail.viewmodel.CatDetailViewModel
 import com.goncalo.swordchallenge.presentation.catdetail.views.CatDetailError
 import com.goncalo.swordchallenge.presentation.catdetail.views.CatDetailLoading
 import com.goncalo.swordchallenge.presentation.common.UIState
 
 @Composable
-fun CatDetailScreen(modifier: Modifier = Modifier, viewModel: CatDetailViewModel, catId: String) {
+fun CatDetailScreen(
+    modifier: Modifier = Modifier,
+    viewModel: CatDetailViewModel,
+    catId: String,
+    catDetailRequestSource: String
+) {
 
     LaunchedEffect(Unit) {
-        viewModel.getCatDetails(catId)
+        viewModel.getCatDetails(catId, CatDetailRequestSource.valueOf(catDetailRequestSource))
     }
 
     val catDetailState = viewModel.uiState.collectAsStateWithLifecycle().value

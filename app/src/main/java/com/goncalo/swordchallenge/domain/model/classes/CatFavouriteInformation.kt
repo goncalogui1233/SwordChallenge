@@ -2,6 +2,7 @@ package com.goncalo.swordchallenge.domain.model.classes
 
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 /**
@@ -10,7 +11,10 @@ import androidx.room.PrimaryKey
  * It was needed a second object due to the fact that Room does not support that the
  * same object can be used in two different tables.
  */
-@Entity
+@Entity(
+    tableName = "catfavouriteinformation",
+    indices = [Index(value = ["id"], unique = true)]
+)
 data class CatFavouriteInformation(
     @PrimaryKey(autoGenerate = true) val favId: Int? = null,
     @Embedded

@@ -2,8 +2,10 @@ package com.goncalo.swordchallenge.presentation.catdetail.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.goncalo.swordchallenge.domain.model.classes.CatInformation
+import com.goncalo.swordchallenge.domain.model.enums.CatDetailRequestSource
 import com.goncalo.swordchallenge.domain.usecase.AddCatToFavoriteUseCase
 import com.goncalo.swordchallenge.domain.usecase.GetCatDetailsByIdUseCase
+import com.goncalo.swordchallenge.domain.usecase.GetCatFavouriteDetailsUseCase
 import com.goncalo.swordchallenge.domain.usecase.RemoveCatFromFavoriteUseCase
 import com.goncalo.swordchallenge.presentation.BaseViewModel
 import com.goncalo.swordchallenge.presentation.common.UIState
@@ -18,15 +20,19 @@ import javax.inject.Inject
 class CatDetailViewModel @Inject constructor(
     private val addCatToFavoriteUseCase: AddCatToFavoriteUseCase,
     private val removeCatFromFavoriteUseCase: RemoveCatFromFavoriteUseCase,
-    private val getCatDetailsByIdUseCase: GetCatDetailsByIdUseCase
+    private val getCatDetailsByIdUseCase: GetCatDetailsByIdUseCase,
+    private val getCatFavouriteDetailsUseCase: GetCatFavouriteDetailsUseCase
 ) : BaseViewModel(addCatToFavoriteUseCase, removeCatFromFavoriteUseCase) {
 
     private val _uiState = MutableStateFlow<UIState<CatInformation>>(UIState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    suspend fun getCatDetails(imageId: String) = viewModelScope.launch (Dispatchers.IO){
+    suspend fun getCatDetails(imageId: String, detailSource: CatDetailRequestSource) = viewModelScope.launch (Dispatchers.IO){
         _uiState.value = UIState.Loading
-        val response = getCatDetailsByIdUseCase(imageId)
+        val response = when (detailSource) {
+            CatDetailRequestSource.BREED_LIST -> getCatDetailsByIdUseCase(imageId)
+            CatDetailRequestSource.FAVOURITE_LIST -> getCatFavouriteDetailsUseCase(imageId)
+        }
 
         if(response.isSuccess) {
             _uiState.value = UIState.Success(response.content)

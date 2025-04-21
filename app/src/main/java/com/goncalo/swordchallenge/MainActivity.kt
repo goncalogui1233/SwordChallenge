@@ -75,12 +75,17 @@ class MainActivity : ComponentActivity() {
                             }
 
                             composable<ScreenCatFavourite> {
-                                CatFavouriteScreen(viewModel = catListViewModel)
+                                CatFavouriteScreen(viewModel = catListViewModel, navController = navController)
                             }
 
                             composable<CatDetailScreen> {
                                 val catId = it.toRoute<CatDetailScreen>().catId
-                                CatDetailScreen(viewModel = catDetailViewModel, catId = catId)
+                                val detailSource = it.toRoute<CatDetailScreen>().detailSource
+                                CatDetailScreen(
+                                    viewModel = catDetailViewModel,
+                                    catId = catId,
+                                    catDetailRequestSource = detailSource
+                                )
                             }
                         }
                     }

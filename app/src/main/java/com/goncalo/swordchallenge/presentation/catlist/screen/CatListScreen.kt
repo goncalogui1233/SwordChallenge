@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.goncalo.swordchallenge.domain.model.enums.CatDetailRequestSource
 import com.goncalo.swordchallenge.presentation.catlist.viewmodel.CatListViewModel
 import com.goncalo.swordchallenge.presentation.catlist.views.CatListItem
 import com.goncalo.swordchallenge.presentation.common.CatDetailScreen
@@ -73,7 +74,7 @@ fun CatListScreen(modifier: Modifier = Modifier, viewModel: CatListViewModel, na
                         CatListItem(modifier = Modifier.padding(10.dp), item = item, onFavouriteClick = {
                             viewModel.changeCatFavouriteStatus(item)
                         }) {
-                            navController.navigate(CatDetailScreen(item.id))
+                            navController.navigate(CatDetailScreen(item.id, CatDetailRequestSource.BREED_LIST.name))
                         }
                     }
                 }

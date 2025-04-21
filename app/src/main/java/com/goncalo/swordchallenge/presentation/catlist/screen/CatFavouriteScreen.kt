@@ -18,20 +18,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.goncalo.swordchallenge.domain.model.classes.CatInformation
+import com.goncalo.swordchallenge.domain.model.enums.CatDetailRequestSource
 import com.goncalo.swordchallenge.presentation.catlist.viewmodel.CatListViewModel
 import com.goncalo.swordchallenge.presentation.catlist.views.CatListItem
+import com.goncalo.swordchallenge.presentation.common.CatDetailScreen
 
 @Composable
-fun CatFavouriteScreen(modifier: Modifier = Modifier, viewModel: CatListViewModel) {
+fun CatFavouriteScreen(modifier: Modifier = Modifier, viewModel: CatListViewModel, navController: NavController) {
     val favoriteItems =
         viewModel.catFavouriteList.collectAsStateWithLifecycle(
             initialValue = listOf()
         )
 
     if (favoriteItems.value.isNotEmpty()) {
-        FavouriteList(favouriteItems = favoriteItems.value) {
-            viewModel.changeCatFavouriteStatus(it)
+        FavouriteList(
+            favouriteItems = favoriteItems.value,
+            onFavouriteClick = { viewModel.changeCatFavouriteStatus(it) }) { catId ->
+            navController.navigate(CatDetailScreen(catId, CatDetailRequestSource.FAVOURITE_LIST.name))
         }
     } else {
         FavouriteEmptyState()
@@ -42,7 +47,8 @@ fun CatFavouriteScreen(modifier: Modifier = Modifier, viewModel: CatListViewMode
 private fun FavouriteList(
     modifier: Modifier = Modifier,
     favouriteItems: List<CatInformation>,
-    onFavouriteClick: (CatInformation) -> Unit
+    onFavouriteClick: (CatInformation) -> Unit,
+    onItemClicked: (String) -> Unit
 ) {
     LazyVerticalGrid(modifier = modifier, columns = GridCells.Fixed(3)) {
         item(span = { GridItemSpan(maxLineSpan) }) {
@@ -60,8 +66,8 @@ private fun FavouriteList(
         }
 
         items(favouriteItems) {
-            CatFavouriteListItem(catInformation = it) {
-                onFavouriteClick(it)
+            CatFavouriteListItem(catInformation = it, onFavouriteClick = { onFavouriteClick(it) }) {
+                onItemClicked(it.id)
             }
         }
     }
@@ -71,7 +77,8 @@ private fun FavouriteList(
 private fun CatFavouriteListItem(
     modifier: Modifier = Modifier,
     catInformation: CatInformation,
-    onFavouriteClick: () -> Unit
+    onFavouriteClick: () -> Unit,
+    onItemClicked: () -> Unit
 ) {
     Column(
         modifier = modifier.padding(10.dp)
@@ -79,7 +86,7 @@ private fun CatFavouriteListItem(
         CatListItem(item = catInformation, onFavouriteClick = {
             onFavouriteClick()
         }) {
-
+            onItemClicked()
         }
 
         catInformation.lifeSpan?.let { lifeSpan ->
