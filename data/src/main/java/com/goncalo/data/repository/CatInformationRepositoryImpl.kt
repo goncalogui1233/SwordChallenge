@@ -78,7 +78,8 @@ class CatInformationRepositoryImpl @Inject constructor(
             val response = catInformationApi.getCatDetails(imageId)
 
             if(response.isSuccessful) {
-                Status(isSuccess = true, content = response.body()?.toCatInformation())
+                val isIdFavorite = getCatFavouriteList().any { it.id == imageId }
+                Status(isSuccess = true, content = response.body()?.toCatInformation()?.copy(isFavourite = isIdFavorite))
             } else {
                 val catDetailsDB = getCatDetailsFromDB(imageId, detailSource)
                 Status(isSuccess = catDetailsDB != null, content = catDetailsDB)
