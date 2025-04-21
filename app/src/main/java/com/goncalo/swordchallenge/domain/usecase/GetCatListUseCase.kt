@@ -17,7 +17,7 @@ class GetCatListUseCase @Inject constructor(
 
         return catInformationRepository.getCatList(breedName).map { pagingData ->
             pagingData.map { cat ->
-                val isFavourite = catFavouriteList.any { fav -> fav.catInformation.id == cat.id }
+                val isFavourite = catFavouriteList.any { fav -> fav.id == cat.id }
                 cat.copy(isFavourite = isFavourite)
             }
         }

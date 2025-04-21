@@ -1,7 +1,7 @@
 package com.goncalo.swordchallenge.domain.usecase
 
 import com.goncalo.swordchallenge.domain.repository.CatInformationRepository
-import com.goncalo.swordchallenge.domain.model.classes.CatFavouriteInformation
+import com.goncalo.swordchallenge.data.mappers.CatDBFavouriteInformation
 import com.goncalo.swordchallenge.domain.model.classes.CatInformation
 import com.goncalo.swordchallenge.domain.model.helpers.Status
 import javax.inject.Inject
@@ -11,8 +11,7 @@ class AddCatToFavoriteUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(catInformation: CatInformation): Status<Long> {
-        val catFavourite = CatFavouriteInformation(catInformation = catInformation.copy(isFavourite = true))
-        return catInformationRepository.insertCatFavourite(catFavourite)
+        return catInformationRepository.insertCatFavourite(catInformation.copy(isFavourite = true))
     }
 
 }

@@ -6,9 +6,10 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.goncalo.swordchallenge.data.datastore.CatDataStore
 import com.goncalo.swordchallenge.data.db.CatInformationDao
+import com.goncalo.swordchallenge.data.mappers.CatDBInformation
+import com.goncalo.swordchallenge.data.mappers.toCatDBInformationList
 import com.goncalo.swordchallenge.data.network.CatInformationApi
 import com.goncalo.swordchallenge.domain.model.classes.CatInformation
-import com.goncalo.swordchallenge.domain.model.classes.toCatInformationList
 
 @OptIn(ExperimentalPagingApi::class)
 class CatRemoteMediator(
@@ -16,7 +17,7 @@ class CatRemoteMediator(
     private val catInformationDao: CatInformationDao,
     private val catDataStore: CatDataStore,
     private val pageLimit: Int = 10,
-) : RemoteMediator<Int, CatInformation>() {
+) : RemoteMediator<Int, CatDBInformation>() {
 
     private var currentPage = 0
 
@@ -36,7 +37,7 @@ class CatRemoteMediator(
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, CatInformation>
+        state: PagingState<Int, CatDBInformation>
     ): MediatorResult {
         return try {
             val loadKey = when (loadType) {
@@ -57,7 +58,7 @@ class CatRemoteMediator(
                     catInformationDao.clearCatInformationTable()
                 }
 
-                catInformationDao.insertCatList(it.toCatInformationList())
+                catInformationDao.insertCatList(it.toCatDBInformationList())
                 catDataStore.saveCatListLastPage(currentPage.toString())
                 MediatorResult.Success(endOfPaginationReached = it.isEmpty())
             } ?: MediatorResult.Success(endOfPaginationReached = true)

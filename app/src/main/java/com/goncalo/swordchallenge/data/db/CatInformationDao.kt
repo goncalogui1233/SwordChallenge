@@ -7,33 +7,34 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.goncalo.swordchallenge.data.mappers.CatDBInformation
 import com.goncalo.swordchallenge.domain.model.classes.CatInformation
 
 @Dao
 interface CatInformationDao {
 
-    @Query("SELECT * FROM catinformation")
-    suspend fun getAllCats(): List<CatInformation>
+    @Query("SELECT * FROM catdbinformation")
+    suspend fun getAllCats(): List<CatDBInformation>
 
-    @Query("SELECT * FROM catinformation where (breedName like '%' || :breedName || '%' or :breedName == '') ")
-    fun getAllCatsPaging(breedName: String): PagingSource<Int, CatInformation>
+    @Query("SELECT * FROM catdbinformation where (breedName like '%' || :breedName || '%' or :breedName == '') ")
+    fun getAllCatsPaging(breedName: String): PagingSource<Int, CatDBInformation>
 
-    @Query("SELECT * FROM catinformation where id = :catId")
-    fun getCatBreedById(catId: String): CatInformation?
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCat(catInformation: CatInformation)
+    @Query("SELECT * FROM catdbinformation where id = :catId")
+    fun getCatBreedById(catId: String): CatDBInformation?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCatList(catInformationList: List<CatInformation>)
+    suspend fun insertCat(catInformation: CatDBInformation)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCatList(catInformationList: List<CatDBInformation>)
 
     @Update
-    suspend fun updateCat(catInformation: CatInformation)
+    suspend fun updateCat(catInformation: CatDBInformation)
 
     @Delete
-    suspend fun deleteCat(catInformation: CatInformation)
+    suspend fun deleteCat(catInformation: CatDBInformation)
 
-    @Query("DELETE FROM catinformation")
+    @Query("DELETE FROM catdbinformation")
     suspend fun clearCatInformationTable()
 
 }

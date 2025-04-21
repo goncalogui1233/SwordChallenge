@@ -8,10 +8,6 @@ class GetCatFavouriteListUseCase @Inject constructor(
     private val catInformationRepository: CatInformationRepository
 ) {
 
-    operator fun invoke() = catInformationRepository.getCatFavouriteListFlow().map { paging ->
-        paging.map { catFavourite ->
-            catFavourite.catInformation
-        }
-    }
+    operator fun invoke() = catInformationRepository.getCatFavouriteListFlow()
 
 }

@@ -8,12 +8,14 @@ import androidx.paging.map
 import com.goncalo.swordchallenge.data.datastore.CatDataStore
 import com.goncalo.swordchallenge.data.network.CatInformationApi
 import com.goncalo.swordchallenge.data.paging.CatRemoteMediator
-import com.goncalo.swordchallenge.database.SwordDatabase
-import com.goncalo.swordchallenge.domain.model.classes.CatFavouriteInformation
+import com.goncalo.swordchallenge.data.db.SwordDatabase
+import com.goncalo.swordchallenge.data.mappers.toCatDBFavouriteInformation
+import com.goncalo.swordchallenge.data.mappers.toCatDBInformation
+import com.goncalo.swordchallenge.data.mappers.toCatInformation
+import com.goncalo.swordchallenge.data.mappers.toCatInformationList
 import com.goncalo.swordchallenge.domain.model.classes.CatInformation
 import com.goncalo.swordchallenge.domain.model.helpers.Status
 import com.goncalo.swordchallenge.domain.repository.CatInformationRepository
-import com.goncalo.swordchallenge.domain.model.classes.toCatInformation
 import com.goncalo.swordchallenge.domain.model.enums.CatDetailRequestSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -30,8 +32,6 @@ class CatInformationRepositoryImpl @Inject constructor(
     @OptIn(ExperimentalPagingApi::class)
     override suspend fun getCatList(breedName: String): Flow<PagingData<CatInformation>> {
         //Gets favourite list to match with the cat list displayed on screen
-        val favoriteList = db.catFavouriteDao().getAllFavouriteCats()
-
         return Pager(
             config = PagingConfig(pageSize = 10),
             remoteMediator = remoteMediator
@@ -39,20 +39,21 @@ class CatInformationRepositoryImpl @Inject constructor(
             db.catInformationDao().getAllCatsPaging(breedName)
         }.flow.map { pagingData ->
             pagingData.map { catInfo ->
-                val isFavourite = favoriteList.any { fav -> fav.catInformation.id == catInfo.id }
-                catInfo.copy(isFavourite = isFavourite)
+                catInfo.toCatInformation()
             }
         }
     }
 
-    override suspend fun getCatFavouriteList() = db.catFavouriteDao().getAllFavouriteCats()
+    override suspend fun getCatFavouriteList(): List<CatInformation> =
+        db.catFavouriteDao().getAllFavouriteCats().toCatInformationList()
 
-    override fun getCatFavouriteListFlow(): Flow<List<CatFavouriteInformation>> = db.catFavouriteDao().getAllFavouriteCatsFlow()
+    override fun getCatFavouriteListFlow(): Flow<List<CatInformation>> =
+        db.catFavouriteDao().getAllFavouriteCatsFlow().map { it.toCatInformationList() }
 
-    override suspend fun insertCatFavourite(catFavouriteInformation: CatFavouriteInformation): Status<Long> {
+    override suspend fun insertCatFavourite(catFavouriteInformation: CatInformation): Status<Long> {
         return try {
-            val insertedRowId = db.catFavouriteDao().insertNewFavourite(catFavouriteInformation)
-            db.catInformationDao().updateCat(catFavouriteInformation.catInformation)
+            val insertedRowId = db.catFavouriteDao().insertNewFavourite(catFavouriteInformation.toCatDBFavouriteInformation())
+            db.catInformationDao().updateCat(catFavouriteInformation.toCatDBInformation())
             Status(isSuccess = true, content = insertedRowId)
         } catch (e: Exception) {
             Status(isSuccess = false)
@@ -63,7 +64,7 @@ class CatInformationRepositoryImpl @Inject constructor(
         return try {
             val removedRows = db.catFavouriteDao().removeFavourite(catInformation.id)
             if (removedRows > 0) {
-                db.catInformationDao().updateCat(catInformation)
+                db.catInformationDao().updateCat(catInformation.toCatDBInformation())
             }
 
             Status(isSuccess = removedRows > 0, content = removedRows.toLong())
@@ -95,9 +96,9 @@ class CatInformationRepositoryImpl @Inject constructor(
     ): CatInformation? {
         return try {
             when (detailSource) {
-                CatDetailRequestSource.BREED_LIST -> db.catInformationDao().getCatBreedById(imageId)
+                CatDetailRequestSource.BREED_LIST -> db.catInformationDao().getCatBreedById(imageId)?.toCatInformation()
                 CatDetailRequestSource.FAVOURITE_LIST -> db.catFavouriteDao()
-                    .getFavouriteCatById(imageId)?.catInformation
+                    .getFavouriteCatById(imageId)?.toCatInformation()
             }
 
         } catch (e: Exception) {

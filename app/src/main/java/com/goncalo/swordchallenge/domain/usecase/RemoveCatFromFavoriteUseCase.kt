@@ -9,6 +9,6 @@ class RemoveCatFromFavoriteUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(catInformation: CatInformation) =
-        catInformationRepository.deleteCatFavourite(catInformation)
+        catInformationRepository.deleteCatFavourite(catInformation.copy(isFavourite = false))
 
 }

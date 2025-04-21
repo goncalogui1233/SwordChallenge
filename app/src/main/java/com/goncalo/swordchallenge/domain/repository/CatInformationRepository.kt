@@ -1,7 +1,6 @@
 package com.goncalo.swordchallenge.domain.repository
 
 import androidx.paging.PagingData
-import com.goncalo.swordchallenge.domain.model.classes.CatFavouriteInformation
 import com.goncalo.swordchallenge.domain.model.classes.CatInformation
 import com.goncalo.swordchallenge.domain.model.enums.CatDetailRequestSource
 import com.goncalo.swordchallenge.domain.model.helpers.Status
@@ -11,11 +10,11 @@ interface CatInformationRepository {
 
     suspend fun getCatList(breedName: String): Flow<PagingData<CatInformation>>
 
-    suspend fun getCatFavouriteList(): List<CatFavouriteInformation>
+    suspend fun getCatFavouriteList(): List<CatInformation>
 
-    fun getCatFavouriteListFlow(): Flow<List<CatFavouriteInformation>>
+    fun getCatFavouriteListFlow(): Flow<List<CatInformation>>
 
-    suspend fun insertCatFavourite(catFavouriteInformation: CatFavouriteInformation): Status<Long>
+    suspend fun insertCatFavourite(catFavouriteInformation: CatInformation): Status<Long>
 
     suspend fun deleteCatFavourite(catInformation: CatInformation): Status<Long>
 
