@@ -1,7 +1,7 @@
 package com.goncalo.swordchallenge.domain.usecase
 
 import com.goncalo.swordchallenge.data.repository.FakeCatInformationRepository
-import com.goncalo.swordchallenge.domain.model.classes.CatFavouriteInformation
+import com.goncalo.swordchallenge.data.mappers.CatDBFavouriteInformation
 import com.goncalo.swordchallenge.domain.model.classes.CatInformation
 import com.goncalo.swordchallenge.domain.repository.CatInformationRepository
 import kotlinx.coroutines.runBlocking
@@ -31,7 +31,7 @@ class GetCatFavouriteDetailsUseCaseTest {
         fakeRepository = FakeCatInformationRepository()
         getCatFavouriteDetailsUseCase = GetCatFavouriteDetailsUseCase(fakeRepository)
 
-        fakeRepository.insertCatFavourite(CatFavouriteInformation(5, item))
+        fakeRepository.insertCatFavourite(item)
     }
 
     @Test
@@ -50,7 +50,5 @@ class GetCatFavouriteDetailsUseCaseTest {
         assertEquals(false, detail.isSuccess)
         assertEquals(null, detail.content)
     }
-
-
 
 }

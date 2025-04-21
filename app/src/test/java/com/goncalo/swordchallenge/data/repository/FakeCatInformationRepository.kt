@@ -1,7 +1,10 @@
 package com.goncalo.swordchallenge.data.repository
 
 import androidx.paging.PagingData
-import com.goncalo.swordchallenge.domain.model.classes.CatFavouriteInformation
+import com.goncalo.swordchallenge.data.mappers.CatDBFavouriteInformation
+import com.goncalo.swordchallenge.data.mappers.toCatDBInformation
+import com.goncalo.swordchallenge.data.mappers.toCatInformation
+import com.goncalo.swordchallenge.data.mappers.toCatInformationList
 import com.goncalo.swordchallenge.domain.model.classes.CatInformation
 import com.goncalo.swordchallenge.domain.model.enums.CatDetailRequestSource
 import com.goncalo.swordchallenge.domain.model.helpers.Status
@@ -11,7 +14,7 @@ import kotlinx.coroutines.flow.flowOf
 
 class FakeCatInformationRepository : CatInformationRepository  {
 
-    private val breedList = listOf(
+    private val breedList = arrayListOf(
         CatInformation(
             "xnzzM6MBI",
             "abys",
@@ -44,7 +47,7 @@ class FakeCatInformationRepository : CatInformationRepository  {
         )
     )
 
-    private val favouriteList = arrayListOf<CatFavouriteInformation>()
+    private val favouriteList = arrayListOf<CatDBFavouriteInformation>()
 
     override suspend fun getCatList(breedName: String): Flow<PagingData<CatInformation>> {
         val list =
@@ -53,20 +56,27 @@ class FakeCatInformationRepository : CatInformationRepository  {
         return flowOf(PagingData.from(list))
     }
 
-    override suspend fun getCatFavouriteList() = favouriteList
+    override suspend fun getCatFavouriteList(): List<CatInformation> = favouriteList.toCatInformationList()
 
-    override fun getCatFavouriteListFlow(): Flow<List<CatFavouriteInformation>> {
-        return flowOf(favouriteList)
+    override fun getCatFavouriteListFlow(): Flow<List<CatInformation>> {
+        return flowOf(favouriteList.toCatInformationList())
     }
 
-    override suspend fun insertCatFavourite(catFavouriteInformation: CatFavouriteInformation): Status<Long> {
-        if(favouriteList.any { it.catInformation.id == catFavouriteInformation.catInformation.id }.not()) {
+    override suspend fun insertCatFavourite(catFavouriteInformation: CatInformation): Status<Long> {
+        if(favouriteList.any { it.toCatInformation().id == catFavouriteInformation.id }.not()) {
             favouriteList.add(
-                CatFavouriteInformation(
-                    favId = catFavouriteInformation.favId,
-                    catInformation = catFavouriteInformation.catInformation.copy(isFavourite = true)
+                CatDBFavouriteInformation(
+                    favId = null,
+                    catDBInformation = catFavouriteInformation.toCatDBInformation().copy(isFavourite = true)
                 )
             )
+
+            val itemIndex = breedList.indexOfFirst { it.id == catFavouriteInformation.id }
+            if(itemIndex != -1) {
+                breedList.removeAt(itemIndex)
+                breedList.add(itemIndex, catFavouriteInformation.copy(isFavourite = true))
+            }
+
             return Status(isSuccess = true)
         }
 
@@ -75,7 +85,7 @@ class FakeCatInformationRepository : CatInformationRepository  {
 
     override suspend fun deleteCatFavourite(catInformation: CatInformation): Status<Long> {
         val hasRemoved =
-            favouriteList.remove(favouriteList.firstOrNull { it.catInformation.id == catInformation.id })
+            favouriteList.remove(favouriteList.firstOrNull { it.toCatInformation().id == catInformation.id })
         return Status(isSuccess = hasRemoved)
     }
 
@@ -88,8 +98,8 @@ class FakeCatInformationRepository : CatInformationRepository  {
             val item = breedList.firstOrNull { it.id == imageId }
             return Status(isSuccess = item != null, content = item)
         } else {
-            val item = favouriteList.firstOrNull { it.catInformation.id == imageId }
-            return Status(isSuccess = item != null, content = item?.catInformation)
+            val item = favouriteList.firstOrNull { it.toCatInformation().id == imageId }
+            return Status(isSuccess = item != null, content = item?.toCatInformation())
         }
     }
 }

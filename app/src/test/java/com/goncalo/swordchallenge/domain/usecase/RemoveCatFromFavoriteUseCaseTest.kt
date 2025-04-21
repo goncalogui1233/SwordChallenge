@@ -1,7 +1,7 @@
 package com.goncalo.swordchallenge.domain.usecase
 
 import com.goncalo.swordchallenge.data.repository.FakeCatInformationRepository
-import com.goncalo.swordchallenge.domain.model.classes.CatFavouriteInformation
+import com.goncalo.swordchallenge.data.mappers.CatDBFavouriteInformation
 import com.goncalo.swordchallenge.domain.model.classes.CatInformation
 import com.goncalo.swordchallenge.domain.repository.CatInformationRepository
 import kotlinx.coroutines.runBlocking
@@ -42,36 +42,31 @@ class RemoveCatFromFavoriteUseCaseTest {
         fakeRepository = FakeCatInformationRepository()
         removeCatFromFavoriteUseCase = RemoveCatFromFavoriteUseCase(fakeRepository)
 
-        fakeRepository.insertCatFavourite(
-            CatFavouriteInformation(
-                5, itemOneToManipulate
-            )
-        )
+        fakeRepository.insertCatFavourite(itemOneToManipulate)
     }
 
 
     @Test
     fun `test removeFirstItemToFavorite`() = runTest {
-        val item = fakeRepository.getCatFavouriteList()
+        var item = fakeRepository.getCatFavouriteList()
 
         assertEquals(1, item.size)
         val removeStatus = removeCatFromFavoriteUseCase(itemOneToManipulate)
+
+        item = fakeRepository.getCatFavouriteList()
         assertEquals(true, removeStatus.isSuccess)
         assertEquals(0, item.size)
     }
 
     @Test
     fun `test checkIfIsRemovingItemById`() = runTest {
-        val item = fakeRepository.getCatFavouriteList()
+        fakeRepository.insertCatFavourite(itemTwoToManipulate)
 
-        fakeRepository.insertCatFavourite(
-            CatFavouriteInformation(
-                6, itemTwoToManipulate
-            )
-        )
-
+        var item = fakeRepository.getCatFavouriteList()
         assertEquals(2, item.size)
+
         val removeStatus = removeCatFromFavoriteUseCase(itemTwoToManipulate)
+        item = fakeRepository.getCatFavouriteList()
         assertEquals(true, removeStatus.isSuccess)
         assertEquals(1, item.size)
     }

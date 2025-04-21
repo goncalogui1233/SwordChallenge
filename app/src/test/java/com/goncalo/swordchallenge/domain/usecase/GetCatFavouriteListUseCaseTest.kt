@@ -1,7 +1,7 @@
 package com.goncalo.swordchallenge.domain.usecase
 
 import com.goncalo.swordchallenge.data.repository.FakeCatInformationRepository
-import com.goncalo.swordchallenge.domain.model.classes.CatFavouriteInformation
+import com.goncalo.swordchallenge.data.mappers.CatDBFavouriteInformation
 import com.goncalo.swordchallenge.domain.model.classes.CatInformation
 import com.goncalo.swordchallenge.domain.repository.CatInformationRepository
 import kotlinx.coroutines.test.runTest
@@ -40,7 +40,7 @@ class GetCatFavouriteListUseCaseTest {
 
     @Test
     fun `test checkIfListReturnsItemAdded`() = runTest {
-        fakeRepository.insertCatFavourite(CatFavouriteInformation(5, itemToManipulate))
+        fakeRepository.insertCatFavourite(itemToManipulate)
 
         getCatFavouriteListUseCase().collect { favoriteList ->
             assertEquals(1, favoriteList.size)

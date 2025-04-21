@@ -4,7 +4,7 @@ import androidx.paging.AsyncPagingDataDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
 import com.goncalo.swordchallenge.data.repository.FakeCatInformationRepository
-import com.goncalo.swordchallenge.domain.model.classes.CatFavouriteInformation
+import com.goncalo.swordchallenge.data.mappers.CatDBFavouriteInformation
 import com.goncalo.swordchallenge.domain.model.classes.CatInformation
 import com.goncalo.swordchallenge.domain.repository.CatInformationRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -119,29 +119,36 @@ class GetCatListUseCaseTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `test getCatList with one item favourite`() = runTest {
-        getCatListUseCase("").collectLatest { pagingData ->
-            val differ = AsyncPagingDataDiffer(
-                diffCallback = MyModelDiffCallback(),
-                updateCallback = NoopListCallback(),
-                mainDispatcher = dispatcher,
-                workerDispatcher = dispatcher
-            )
+    fun `test getCatList update one item and return with one item favourite`() = runTest {
 
+        val differ = AsyncPagingDataDiffer(
+            diffCallback = MyModelDiffCallback(),
+            updateCallback = NoopListCallback(),
+            mainDispatcher = dispatcher,
+            workerDispatcher = dispatcher
+        )
+
+        val flow = getCatListUseCase("")
+
+        flow.collectLatest { pagingData ->
             differ.submitData(pagingData)
-            advanceUntilIdle()
-
-            //Return item list
-            val result = differ.snapshot().items
-
-            repository.insertCatFavourite(CatFavouriteInformation(5, result[0]))
-            differ.submitData(pagingData)
-            advanceUntilIdle()
-
-            val resultFavorite = differ.snapshot().items
-
-            assertEquals(true, resultFavorite.any { it.isFavourite })
         }
+
+        advanceUntilIdle()
+        assertEquals(false, differ.snapshot().items.first().isFavourite)
+
+
+        //Insert item to favourite
+        repository.insertCatFavourite(differ.snapshot().items.first())
+        val updatedFlow = getCatListUseCase("")
+
+        updatedFlow.collectLatest { pagingData ->
+            differ.submitData(pagingData)
+        }
+
+        advanceUntilIdle()
+
+        assertEquals(true, differ.snapshot().items.first().isFavourite)
     }
 
 

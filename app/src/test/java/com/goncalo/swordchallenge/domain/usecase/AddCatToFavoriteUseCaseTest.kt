@@ -22,7 +22,7 @@ class AddCatToFavoriteUseCaseTest {
 
     @Test
     fun `test addItemToFavorite`() = runTest {
-        val itemList = fakeRepository.getCatFavouriteList()
+        var itemList = fakeRepository.getCatFavouriteList()
         assertEquals(0, itemList.size)
 
         val item = CatInformation(
@@ -37,15 +37,16 @@ class AddCatToFavoriteUseCaseTest {
         )
 
         val addedStatus = addCatToFavoriteUseCase(item)
+        itemList = fakeRepository.getCatFavouriteList()
 
         assertEquals(true, addedStatus.isSuccess)
         assertEquals(1, itemList.size)
-        assertEquals(item.breedName, itemList.last().catInformation.breedName)
+        assertEquals(item.breedName, itemList.last().breedName)
     }
 
     @Test
     fun `test tryAddDuplicateItemToFavorite`() = runTest {
-        val itemList = fakeRepository.getCatFavouriteList()
+        var itemList = fakeRepository.getCatFavouriteList()
         assertEquals(0, itemList.size)
 
         val item = CatInformation(
@@ -60,10 +61,12 @@ class AddCatToFavoriteUseCaseTest {
         )
 
         val successAddStatus = addCatToFavoriteUseCase(item)
+        itemList = fakeRepository.getCatFavouriteList()
         assertEquals(true, successAddStatus.isSuccess)
         assertEquals(1, itemList.size)
 
         val failAddStatus = addCatToFavoriteUseCase(item)
+        itemList = fakeRepository.getCatFavouriteList()
         assertEquals(false, failAddStatus.isSuccess)
         assertEquals(1, itemList.size)
     }
