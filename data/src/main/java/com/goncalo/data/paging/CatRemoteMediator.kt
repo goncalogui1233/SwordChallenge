@@ -6,13 +6,15 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.goncalo.data.datastore.CatDataStore
 import com.goncalo.data.db.CatInformationDao
+import com.goncalo.data.db.SwordDatabase
 import com.goncalo.data.mappers.CatBreedInformation
+import com.goncalo.data.mappers.getCatImageUrl
 import com.goncalo.data.network.CatInformationApi
 
 @OptIn(ExperimentalPagingApi::class)
 class CatRemoteMediator(
     private val catInformationApi: CatInformationApi,
-    private val catInformationDao: CatInformationDao,
+    private val db: SwordDatabase,
     private val catDataStore: CatDataStore,
     private val pageLimit: Int = 10,
 ) : RemoteMediator<Int, CatBreedInformation>() {
@@ -20,7 +22,9 @@ class CatRemoteMediator(
     private var currentPage = 0
 
     override suspend fun initialize(): InitializeAction {
-        return if(catInformationDao.getAllCats().isEmpty() || catDataStore.getAppStartupFlag()) {
+        return if (db.catInformationDao().getAllCats()
+                .isEmpty() || catDataStore.getAppStartupFlag()
+        ) {
             catDataStore.saveAppStartupFlag(false)
             InitializeAction.LAUNCH_INITIAL_REFRESH
         } else {
@@ -47,6 +51,7 @@ class CatRemoteMediator(
                 LoadType.PREPEND -> {
                     return MediatorResult.Success(endOfPaginationReached = true)
                 }
+
                 LoadType.APPEND -> ++currentPage
             }
 
@@ -54,19 +59,19 @@ class CatRemoteMediator(
 
             response.body()?.let {
                 //Refresh action, reset table
-                if(loadType == LoadType.REFRESH) {
-                    catInformationDao.clearCatInformationTable()
+                if (loadType == LoadType.REFRESH) {
+                    db.catInformationDao().clearCatInformationTable()
                 }
 
                 //Fetch endpoint to get url for cat image
                 val listWithImages = it.map { cat ->
-                    cat.imageId?.let {
-                        val catImage = catInformationApi.getCatImage(cat.imageId)
-                        cat.copy(imageId = catImage.body()?.url)
-                    } ?: cat
+                    cat.getCatImageUrl(
+                        catInformationApi,
+                        db.catImageDao()
+                    )
                 }
 
-                catInformationDao.insertCatList(listWithImages)
+                db.catInformationDao().insertCatList(listWithImages)
                 catDataStore.saveCatListLastPage(currentPage.toString())
                 MediatorResult.Success(endOfPaginationReached = listWithImages.isEmpty())
             } ?: kotlin.run {
@@ -77,4 +82,5 @@ class CatRemoteMediator(
             MediatorResult.Error(e)
         }
     }
+
 }

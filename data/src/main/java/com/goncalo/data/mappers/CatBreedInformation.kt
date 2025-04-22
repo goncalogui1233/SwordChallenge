@@ -3,6 +3,9 @@ package com.goncalo.data.mappers
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.goncalo.data.db.CatImagesDao
+import com.goncalo.data.db.SwordDatabase
+import com.goncalo.data.network.CatInformationApi
 import com.goncalo.domain.model.classes.CatInformation
 import com.google.gson.annotations.SerializedName
 
@@ -47,3 +50,28 @@ fun CatInformation.toCatDBInformation() = CatBreedInformation(
     lifeSpan = this.lifeSpan,
     isFavourite = this.isFavourite
 )
+
+/**
+ * Method that checks database to see if image id returned matches one of the items in the database.
+ * If yes, it gets the url from the database. Otherwise, go to endpoint to grab image url.
+ */
+suspend fun CatBreedInformation.getCatImageUrl(
+    catInformationApi: CatInformationApi,
+    catImagesDao: CatImagesDao
+): CatBreedInformation {
+    return this.imageId?.let { imgId ->
+        val dbImage = catImagesDao.getImageById(imgId)
+        val imageUrl =
+            if (dbImage != null && dbImage.id != imgId && dbImage.url.isNullOrEmpty().not()) {
+                dbImage.url
+            } else {
+                val catImage = catInformationApi.getCatImage(this.imageId)
+
+                catImage.body()?.let { catImg ->
+                    catImagesDao.insertCatImage(catImg)
+                    catImg.url
+                }
+            }
+        this.copy(imageId = imageUrl)
+    } ?: this
+}

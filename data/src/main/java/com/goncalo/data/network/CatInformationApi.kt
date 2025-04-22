@@ -1,6 +1,6 @@
 package com.goncalo.data.network
 
-import com.goncalo.data.mappers.CatApiInformation
+import com.goncalo.data.mappers.CatImageInformation
 import com.goncalo.data.mappers.CatBreedInformation
 import retrofit2.Response
 import retrofit2.http.GET
@@ -31,7 +31,7 @@ interface CatInformationApi {
     suspend fun getCatImage(
         @Path("image_id") imageId: String,
         @Header("x-api-key") apiKey: String = API_KEY
-    ): Response<CatApiInformation>
+    ): Response<CatImageInformation>
 
     @GET("v1/breeds/search")
     suspend fun getCatSearchList(

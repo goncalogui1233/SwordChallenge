@@ -48,6 +48,8 @@ class CatListViewModel @Inject constructor(
             breedNameSearch.debounce(500).distinctUntilChanged().collectLatest {
                 if(it.isNotEmpty()) {
                     searchCatBreed(it)
+                } else {
+                    catSearchListUiState.value = UIState.Success(emptyList())
                 }
             }
         }

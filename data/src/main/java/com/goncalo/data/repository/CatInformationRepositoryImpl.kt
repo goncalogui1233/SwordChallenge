@@ -9,6 +9,8 @@ import com.goncalo.data.datastore.CatDataStore
 import com.goncalo.data.network.CatInformationApi
 import com.goncalo.data.paging.CatRemoteMediator
 import com.goncalo.data.db.SwordDatabase
+import com.goncalo.data.mappers.CatBreedInformation
+import com.goncalo.data.mappers.getCatImageUrl
 import com.goncalo.data.mappers.toCatDBFavouriteInformation
 import com.goncalo.data.mappers.toCatDBInformation
 import com.goncalo.data.mappers.toCatInformation
@@ -27,11 +29,10 @@ class CatInformationRepositoryImpl @Inject constructor(
     private val dataStore: CatDataStore
 ) : CatInformationRepository {
 
-    private val remoteMediator = CatRemoteMediator(catInformationApi, db.catInformationDao(), dataStore)
+    private val remoteMediator = CatRemoteMediator(catInformationApi, db, dataStore)
 
     @OptIn(ExperimentalPagingApi::class)
     override suspend fun getCatList(): Flow<PagingData<CatInformation>> {
-        //Gets favourite list to match with the cat list displayed on screen
         return Pager(
             config = PagingConfig(pageSize = 10),
             remoteMediator = remoteMediator
@@ -49,12 +50,8 @@ class CatInformationRepositoryImpl @Inject constructor(
             val searchResult = catInformationApi.getCatSearchList(query = breedName)
             searchResult.body()?.let { fetchedList ->
                 val listWithImages = fetchedList.map { cat ->
-                    cat.imageId?.let {
-                        val catImage = catInformationApi.getCatImage(it)
-                        cat.copy(imageId = catImage.body()?.url)
-                    } ?: cat
+                    cat.getCatImageUrl(catInformationApi, db.catImageDao())
                 }
-
                 listWithImages.toCatInformationList()
             } ?: emptyList()
         } catch (e: Exception) {
@@ -114,6 +111,8 @@ class CatInformationRepositoryImpl @Inject constructor(
             null
         }
     }
+
+
 
 
 }
