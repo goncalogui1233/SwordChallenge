@@ -1,4 +1,4 @@
-package com.goncalo.swordchallenge.data.repository
+package com.goncalo.data.repository
 
 import androidx.paging.PagingData
 import com.goncalo.data.mappers.CatDBFavouriteInformation
@@ -46,11 +46,12 @@ class FakeCatInformationRepository : CatInformationRepository {
 
     private val favouriteList = arrayListOf<CatDBFavouriteInformation>()
 
-    override suspend fun getCatList(breedName: String): Flow<PagingData<CatInformation>> {
-        val list =
-            if (breedName.isNotEmpty()) breedList.filter { it.breedName?.contains(breedName) == true } else breedList
+    override suspend fun getCatList(): Flow<PagingData<CatInformation>> {
+        return flowOf(PagingData.from(breedList))
+    }
 
-        return flowOf(PagingData.from(list))
+    override suspend fun getCatSearchList(breedName: String): List<CatInformation> {
+        return breedList.filter { it.breedName.equals(breedName) }
     }
 
     override suspend fun getCatFavouriteList(): List<CatInformation> = favouriteList.toCatInformationList()

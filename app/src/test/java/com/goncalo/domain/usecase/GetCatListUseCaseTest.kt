@@ -1,13 +1,11 @@
-package com.goncalo.swordchallenge.domain.usecase
+package com.goncalo.domain.usecase
 
 import androidx.paging.AsyncPagingDataDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
-import com.goncalo.swordchallenge.data.repository.FakeCatInformationRepository
-import com.goncalo.data.mappers.CatDBFavouriteInformation
+import com.goncalo.data.repository.FakeCatInformationRepository
 import com.goncalo.domain.model.classes.CatInformation
 import com.goncalo.domain.repository.CatInformationRepository
-import com.goncalo.domain.usecase.GetCatListUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -34,7 +32,7 @@ class GetCatListUseCaseTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `test getCatList and check if returns items`() = runTest {
-        getCatListUseCase("").collectLatest { pagingData ->
+        getCatListUseCase().collectLatest { pagingData ->
             val differ = AsyncPagingDataDiffer(
                 diffCallback = MyModelDiffCallback(),
                 updateCallback = NoopListCallback(),
@@ -55,7 +53,7 @@ class GetCatListUseCaseTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `test getCatList and check if all items contains information`() = runTest {
-        getCatListUseCase("").collectLatest { pagingData ->
+        getCatListUseCase().collectLatest { pagingData ->
             val differ = AsyncPagingDataDiffer(
                 diffCallback = MyModelDiffCallback(),
                 updateCallback = NoopListCallback(),
@@ -78,49 +76,7 @@ class GetCatListUseCaseTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `test getCatList with filter return emptyList`() = runTest {
-        getCatListUseCase("pokemon").collectLatest { pagingData ->
-            val differ = AsyncPagingDataDiffer(
-                diffCallback = MyModelDiffCallback(),
-                updateCallback = NoopListCallback(),
-                mainDispatcher = dispatcher,
-                workerDispatcher = dispatcher
-            )
-
-            differ.submitData(pagingData)
-            advanceUntilIdle()
-
-            //Return item list
-            val result = differ.snapshot().items
-
-            assertEquals(0, result.size)
-        }
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @Test
-    fun `test getCatList with filter return one item`() = runTest {
-        getCatListUseCase("Bali").collectLatest { pagingData ->
-            val differ = AsyncPagingDataDiffer(
-                diffCallback = MyModelDiffCallback(),
-                updateCallback = NoopListCallback(),
-                mainDispatcher = dispatcher,
-                workerDispatcher = dispatcher
-            )
-
-            differ.submitData(pagingData)
-            advanceUntilIdle()
-
-            //Return item list
-            val result = differ.snapshot().items
-
-            assertEquals(1, result.size)
-        }
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @Test
-    fun `test getCatList update one item and return with one item favourite`() = runTest {
+    fun `test getSearchList update one item and return with one item favourite`() = runTest {
 
         val differ = AsyncPagingDataDiffer(
             diffCallback = MyModelDiffCallback(),
@@ -129,7 +85,7 @@ class GetCatListUseCaseTest {
             workerDispatcher = dispatcher
         )
 
-        val flow = getCatListUseCase("")
+        val flow = getCatListUseCase()
 
         flow.collectLatest { pagingData ->
             differ.submitData(pagingData)
@@ -141,7 +97,7 @@ class GetCatListUseCaseTest {
 
         //Insert item to favourite
         repository.insertCatFavourite(differ.snapshot().items.first())
-        val updatedFlow = getCatListUseCase("")
+        val updatedFlow = getCatListUseCase()
 
         updatedFlow.collectLatest { pagingData ->
             differ.submitData(pagingData)

@@ -1,10 +1,8 @@
-package com.goncalo.swordchallenge.domain.usecase
+package com.goncalo.domain.usecase
 
-import com.goncalo.swordchallenge.data.repository.FakeCatInformationRepository
-import com.goncalo.data.mappers.CatDBFavouriteInformation
+import com.goncalo.data.repository.FakeCatInformationRepository
 import com.goncalo.domain.model.classes.CatInformation
 import com.goncalo.domain.repository.CatInformationRepository
-import com.goncalo.domain.usecase.GetCatFavouriteListUseCase
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
