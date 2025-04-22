@@ -62,7 +62,7 @@ suspend fun CatBreedInformation.getCatImageUrl(
     return this.imageId?.let { imgId ->
         val dbImage = catImagesDao.getImageById(imgId)
         val imageUrl =
-            if (dbImage != null && dbImage.id != imgId && dbImage.url.isNullOrEmpty().not()) {
+            if (dbImage != null && dbImage.id == imgId && dbImage.url.isNullOrEmpty().not()) {
                 dbImage.url
             } else {
                 val catImage = catInformationApi.getCatImage(this.imageId)

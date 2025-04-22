@@ -1,5 +1,6 @@
 package com.goncalo.presentation.catlist.views
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,7 +38,8 @@ fun CatListItem(modifier: Modifier = Modifier, item: CatInformation, onFavourite
                 modifier = Modifier
                     .size(125.dp)
                     .clip(RoundedCornerShape(12.dp)),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
+                error = painterResource(id = R.drawable.question_mark)
             )
 
             item.breedName?.let { name ->
@@ -48,7 +50,9 @@ fun CatListItem(modifier: Modifier = Modifier, item: CatInformation, onFavourite
                         fontWeight = FontWeight.SemiBold,
                         textAlign = TextAlign.Center
                     ),
-                    modifier = Modifier.fillMaxWidth().padding(top = 5.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 5.dp)
                 )
             }
         }

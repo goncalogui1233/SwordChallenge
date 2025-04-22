@@ -103,6 +103,7 @@ fun CatDetails(
             model = details.url,
             contentDescription = null,
             contentScale = ContentScale.Crop,
+            error = painterResource(id = R.drawable.question_mark),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(325.dp)

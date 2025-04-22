@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -201,6 +202,8 @@ fun CatListSearchBox(modifier: Modifier = Modifier, onTextChange: (String) -> Un
         mutableStateOf("")
     }
 
+    val focusManager = LocalFocusManager.current
+
     OutlinedTextField(
         value = searchText,
         placeholder = {
@@ -217,6 +220,7 @@ fun CatListSearchBox(modifier: Modifier = Modifier, onTextChange: (String) -> Un
                     modifier = Modifier.clickable {
                         searchText = ""
                         onTextChange(searchText)
+                        focusManager.clearFocus()
                     })
             }
         },
