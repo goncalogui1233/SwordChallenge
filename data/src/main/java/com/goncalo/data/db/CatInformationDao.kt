@@ -7,34 +7,33 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.goncalo.data.mappers.CatDBInformation
-import com.goncalo.domain.model.classes.CatInformation
+import com.goncalo.data.mappers.CatBreedInformation
 
 @Dao
 interface CatInformationDao {
 
-    @Query("SELECT * FROM catdbinformation")
-    suspend fun getAllCats(): List<CatDBInformation>
+    @Query("SELECT * FROM catbreedinformation")
+    suspend fun getAllCats(): List<CatBreedInformation>
 
-    @Query("SELECT * FROM catdbinformation where (breedName like '%' || :breedName || '%' or :breedName == '') ")
-    fun getAllCatsPaging(breedName: String): PagingSource<Int, CatDBInformation>
+    @Query("SELECT * FROM catbreedinformation where (name like '%' || :breedName || '%' or :breedName == '') ")
+    fun getAllCatsPaging(breedName: String): PagingSource<Int, CatBreedInformation>
 
-    @Query("SELECT * FROM catdbinformation where id = :catId")
-    fun getCatBreedById(catId: String): CatDBInformation?
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCat(catInformation: CatDBInformation)
+    @Query("SELECT * FROM catbreedinformation where id = :catId")
+    fun getCatBreedById(catId: String): CatBreedInformation?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCatList(catInformationList: List<CatDBInformation>)
+    suspend fun insertCat(catInformation: CatBreedInformation)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCatList(catInformationList: List<CatBreedInformation>)
 
     @Update
-    suspend fun updateCat(catInformation: CatDBInformation)
+    suspend fun updateCat(catInformation: CatBreedInformation)
 
     @Delete
-    suspend fun deleteCat(catInformation: CatDBInformation)
+    suspend fun deleteCat(catInformation: CatBreedInformation)
 
-    @Query("DELETE FROM catdbinformation")
+    @Query("DELETE FROM catbreedinformation")
     suspend fun clearCatInformationTable()
 
 }

@@ -6,10 +6,8 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.goncalo.data.datastore.CatDataStore
 import com.goncalo.data.db.CatInformationDao
-import com.goncalo.data.mappers.CatDBInformation
-import com.goncalo.data.mappers.toCatDBInformationList
+import com.goncalo.data.mappers.CatBreedInformation
 import com.goncalo.data.network.CatInformationApi
-import com.goncalo.domain.model.classes.CatInformation
 
 @OptIn(ExperimentalPagingApi::class)
 class CatRemoteMediator(
@@ -17,7 +15,7 @@ class CatRemoteMediator(
     private val catInformationDao: CatInformationDao,
     private val catDataStore: CatDataStore,
     private val pageLimit: Int = 10,
-) : RemoteMediator<Int, CatDBInformation>() {
+) : RemoteMediator<Int, CatBreedInformation>() {
 
     private var currentPage = 0
 
@@ -37,7 +35,7 @@ class CatRemoteMediator(
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, CatDBInformation>
+        state: PagingState<Int, CatBreedInformation>
     ): MediatorResult {
         return try {
             val loadKey = when (loadType) {
@@ -46,7 +44,9 @@ class CatRemoteMediator(
                     0
                 }
 
-                LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
+                LoadType.PREPEND -> {
+                    return MediatorResult.Success(endOfPaginationReached = true)
+                }
                 LoadType.APPEND -> ++currentPage
             }
 
@@ -58,10 +58,20 @@ class CatRemoteMediator(
                     catInformationDao.clearCatInformationTable()
                 }
 
-                catInformationDao.insertCatList(it.toCatDBInformationList())
+                //Fetch endpoint to get url for cat image
+                val listWithImages = it.map { cat ->
+                    cat.imageId?.let {
+                        val catImage = catInformationApi.getCatImage(cat.imageId)
+                        cat.copy(imageId = catImage.body()?.url)
+                    } ?: cat
+                }
+
+                catInformationDao.insertCatList(listWithImages)
                 catDataStore.saveCatListLastPage(currentPage.toString())
-                MediatorResult.Success(endOfPaginationReached = it.isEmpty())
-            } ?: MediatorResult.Success(endOfPaginationReached = true)
+                MediatorResult.Success(endOfPaginationReached = listWithImages.isEmpty())
+            } ?: kotlin.run {
+                MediatorResult.Success(endOfPaginationReached = true)
+            }
 
         } catch (e: Exception) {
             MediatorResult.Error(e)

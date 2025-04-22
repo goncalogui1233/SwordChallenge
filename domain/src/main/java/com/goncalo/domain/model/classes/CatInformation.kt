@@ -5,8 +5,7 @@ package com.goncalo.domain.model.classes
  */
 data class CatInformation(
     val id: String,
-    val breedId: String,
-    val url: String,
+    val url: String? = null,
     val breedName: String?,
     val temperament: String?,
     val origin: String?,
@@ -15,7 +14,3 @@ data class CatInformation(
 
     val isFavourite: Boolean = false
 )
-
-
-
-

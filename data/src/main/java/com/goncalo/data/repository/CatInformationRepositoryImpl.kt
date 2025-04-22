@@ -75,21 +75,12 @@ class CatInformationRepositoryImpl @Inject constructor(
 
     override suspend fun getCatDetails(imageId: String, detailSource: CatDetailRequestSource): Status<CatInformation> {
         return try {
-            val response = catInformationApi.getCatDetails(imageId)
-
-            if(response.isSuccessful) {
-                val isIdFavorite = getCatFavouriteList().any { it.id == imageId }
-                Status(isSuccess = true, content = response.body()?.toCatInformation()?.copy(isFavourite = isIdFavorite))
-            } else {
-                val catDetailsDB = getCatDetailsFromDB(imageId, detailSource)
-                Status(isSuccess = catDetailsDB != null, content = catDetailsDB)
-            }
-        } catch (e: Exception) {
             val catDetailsDB = getCatDetailsFromDB(imageId, detailSource)
             Status(isSuccess = catDetailsDB != null, content = catDetailsDB)
+        } catch (e: Exception) {
+            Status(isSuccess = false)
         }
     }
-
 
     private fun getCatDetailsFromDB(
         imageId: String,

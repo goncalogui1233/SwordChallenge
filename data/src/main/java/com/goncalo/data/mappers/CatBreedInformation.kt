@@ -4,29 +4,30 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.goncalo.domain.model.classes.CatInformation
+import com.google.gson.annotations.SerializedName
 
 /**
  * Class that maps the information to be saved in the database related to the cat information loaded from the API.
  */
 @Entity
-data class CatDBInformation(
+data class CatBreedInformation(
     @PrimaryKey(autoGenerate = false) val id: String,
-    val breedId: String,
-    val url: String,
-    val breedName: String?,
+    @SerializedName("reference_image_id") val imageId: String? = null,
+    val name: String?,
     val temperament: String?,
     val origin: String?,
     val description: String?,
-    @ColumnInfo(name = "life_span") val lifeSpan: String?,
+    @ColumnInfo(name = "life_span")
+    @SerializedName("life_span")
+    val lifeSpan: String?,
 
     val isFavourite: Boolean = false
 )
 
-fun CatDBInformation.toCatInformation() = CatInformation(
+fun CatBreedInformation.toCatInformation() = CatInformation(
     id = this.id,
-    breedId = this.breedId,
-    url = this.url,
-    breedName = this.breedName,
+    url = this.imageId,
+    breedName = this.name,
     temperament = this.temperament,
     origin = this.origin,
     description = this.description,
@@ -34,11 +35,10 @@ fun CatDBInformation.toCatInformation() = CatInformation(
     isFavourite = this.isFavourite
 )
 
-fun CatInformation.toCatDBInformation() = CatDBInformation(
+fun CatInformation.toCatDBInformation() = CatBreedInformation(
     id = this.id,
-    breedId = this.breedId,
-    url = this.url,
-    breedName = this.breedName,
+    imageId = this.url,
+    name = this.breedName,
     temperament = this.temperament,
     origin = this.origin,
     description = this.description,

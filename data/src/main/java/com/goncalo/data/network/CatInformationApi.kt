@@ -1,6 +1,7 @@
 package com.goncalo.data.network
 
 import com.goncalo.data.mappers.CatApiInformation
+import com.goncalo.data.mappers.CatBreedInformation
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -19,18 +20,16 @@ interface CatInformationApi {
         const val API_KEY = "live_ZNEGQ2HOnf72EKPRq90DXt3p3l5YosflUCzPp69q5fdQf7pPIZUzOP6Q66fIbFQl"
     }
 
-    @GET("v1/images/search")
+    @GET("v1/breeds")
     suspend fun getCatList(
         @Query("page") page: Int,
         @Query("limit") limit: Int,
-        @Query("has_breeds") hasBreeds: Boolean = true,
         @Header("x-api-key") apiKey: String = API_KEY
-    ): Response<List<CatApiInformation>>
+    ): Response<List<CatBreedInformation>>
 
-
-    @GET("v1/images/{imageId}")
-    suspend fun getCatDetails(
-        @Path("imageId") imageId: String,
+    @GET("v1/images/{image_id}")
+    suspend fun getCatImage(
+        @Path("image_id") imageId: String,
         @Header("x-api-key") apiKey: String = API_KEY
     ): Response<CatApiInformation>
 
