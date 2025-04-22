@@ -21,7 +21,7 @@ class GetCatDetailsByIdUseCaseTest {
 
     @Test
     fun `test getCatDetailsById`() = runTest {
-        val detail = getCatDetailsByIdUseCase("xnzzM6MBI")
+        val detail = getCatDetailsByIdUseCase("abys")
 
         assertEquals(true, detail.isSuccess)
         assertEquals("Abyssinian", detail.content?.breedName)

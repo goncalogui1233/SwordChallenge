@@ -21,21 +21,20 @@ class AddCatToFavoriteUseCaseTest {
         addCatToFavoriteUseCase = AddCatToFavoriteUseCase(fakeRepository)
     }
 
+    val item = CatInformation(
+        "abys",
+        "https://cdn2.thecatapi.com/images/xnzzM6MBI.jpg",
+        "Abyssinian",
+        "Active, Energetic, Independent, Intelligent, Gentle",
+        "Egypt",
+        "Good cat",
+        "14 - 15",
+    )
+
     @Test
     fun `test addItemToFavorite`() = runTest {
         var itemList = fakeRepository.getCatFavouriteList()
         assertEquals(0, itemList.size)
-
-        val item = CatInformation(
-            "xnzzM6MBI",
-            "abys",
-            "https://cdn2.thecatapi.com/images/xnzzM6MBI.jpg",
-            "Abyssinian",
-            "Active, Energetic, Independent, Intelligent, Gentle",
-            "Egypt",
-            "Good cat",
-            "14 - 15",
-        )
 
         val addedStatus = addCatToFavoriteUseCase(item)
         itemList = fakeRepository.getCatFavouriteList()
@@ -49,17 +48,6 @@ class AddCatToFavoriteUseCaseTest {
     fun `test tryAddDuplicateItemToFavorite`() = runTest {
         var itemList = fakeRepository.getCatFavouriteList()
         assertEquals(0, itemList.size)
-
-        val item = CatInformation(
-            "xnzzM6MBI",
-            "abys",
-            "https://cdn2.thecatapi.com/images/xnzzM6MBI.jpg",
-            "Abyssinian",
-            "Active, Energetic, Independent, Intelligent, Gentle",
-            "Egypt",
-            "Good cat",
-            "14 - 15",
-        )
 
         val successAddStatus = addCatToFavoriteUseCase(item)
         itemList = fakeRepository.getCatFavouriteList()

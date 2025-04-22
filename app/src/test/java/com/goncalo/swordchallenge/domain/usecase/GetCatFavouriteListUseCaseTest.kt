@@ -16,14 +16,13 @@ class GetCatFavouriteListUseCaseTest {
     private lateinit var getCatFavouriteListUseCase: GetCatFavouriteListUseCase
 
     private val itemToManipulate = CatInformation(
-        "zTiuUpmqf",
-        "amis",
-        "https://cdn2.thecatapi.com/images/zTiuUpmqf.jpg",
-        "Australian Mist",
-        "Lively, Social, Fun-loving, Relaxed, Affectionate",
-        "Australia",
+        "abys",
+        "https://cdn2.thecatapi.com/images/xnzzM6MBI.jpg",
+        "Abyssinian",
+        "Active, Energetic, Independent, Intelligent, Gentle",
+        "Egypt",
         "Good cat",
-        "12 - 16",
+        "14 - 15",
     )
 
     @Before

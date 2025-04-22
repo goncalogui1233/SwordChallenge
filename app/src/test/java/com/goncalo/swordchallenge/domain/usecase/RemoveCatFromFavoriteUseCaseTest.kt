@@ -16,18 +16,16 @@ class RemoveCatFromFavoriteUseCaseTest {
     private lateinit var removeCatFromFavoriteUseCase: RemoveCatFromFavoriteUseCase
 
     private val itemOneToManipulate = CatInformation(
-        "zTiuUpmqf",
-        "amis",
-        "https://cdn2.thecatapi.com/images/zTiuUpmqf.jpg",
-        "Australian Mist",
-        "Lively, Social, Fun-loving, Relaxed, Affectionate",
-        "Australia",
+        "abys",
+        "https://cdn2.thecatapi.com/images/xnzzM6MBI.jpg",
+        "Abyssinian",
+        "Active, Energetic, Independent, Intelligent, Gentle",
+        "Egypt",
         "Good cat",
-        "12 - 16",
+        "14 - 15",
     )
 
     private val itemTwoToManipulate = CatInformation(
-        "zYkcOqNce",
         "amis",
         "https://cdn2.thecatapi.com/images/zTiuUpmqf.jpg",
         "Australian Mist",

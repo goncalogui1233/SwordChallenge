@@ -16,8 +16,7 @@ class GetCatFavouriteDetailsUseCaseTest {
     private lateinit var fakeRepository: CatInformationRepository
     private lateinit var getCatFavouriteDetailsUseCase: GetCatFavouriteDetailsUseCase
 
-    private val item = CatInformation(
-        "xnzzM6MBI",
+    val item = CatInformation(
         "abys",
         "https://cdn2.thecatapi.com/images/xnzzM6MBI.jpg",
         "Abyssinian",
@@ -37,7 +36,7 @@ class GetCatFavouriteDetailsUseCaseTest {
 
     @Test
     fun `test getCatDetailsById`() = runTest {
-        val detail = getCatFavouriteDetailsUseCase("xnzzM6MBI")
+        val detail = getCatFavouriteDetailsUseCase("abys")
 
         assertEquals(true, detail.isSuccess)
         assertEquals("Abyssinian", detail.content?.breedName)
