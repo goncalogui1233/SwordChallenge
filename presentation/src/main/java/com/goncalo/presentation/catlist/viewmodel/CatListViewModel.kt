@@ -73,6 +73,10 @@ class CatListViewModel @Inject constructor(
     }
 
     fun setBreedSearchName(name: String) {
+        //When setting the name to search, set the loading state too
+        if(name.isNotEmpty()) {
+            catSearchListUiState.value = UIState.Loading
+        }
         breedNameSearch.value = name
     }
 

@@ -110,7 +110,13 @@ fun CatSearchList(
             }
 
             is UIState.Success -> {
-                uiState.data?.let { list ->
+
+                if(uiState.data.isNullOrEmpty()) {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        CatErrorMessage(errorMessage = "No items found to fill the Cat List")
+                    }
+                } else {
+                    val list = uiState.data
                     items(list.size) { index ->
                         val item = list[index]
                         CatListItem(
@@ -122,6 +128,7 @@ fun CatSearchList(
                             onItemClicked(item.id)
                         }
                     }
+
                 }
             }
 
