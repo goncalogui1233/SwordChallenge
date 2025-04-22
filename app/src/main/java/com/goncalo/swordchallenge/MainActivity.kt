@@ -83,7 +83,8 @@ class MainActivity : ComponentActivity() {
                                 CatDetailScreen(
                                     viewModel = catDetailViewModel,
                                     catId = catId,
-                                    catDetailRequestSource = detailSource
+                                    catDetailRequestSource = detailSource,
+                                    navController = navController
                                 )
                             }
                         }

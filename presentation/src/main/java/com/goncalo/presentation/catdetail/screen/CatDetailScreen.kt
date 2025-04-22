@@ -2,6 +2,7 @@ package com.goncalo.presentation.catdetail.screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -11,9 +12,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.goncalo.domain.model.classes.CatInformation
 import com.goncalo.domain.model.enums.CatDetailRequestSource
@@ -42,7 +50,8 @@ fun CatDetailScreen(
     modifier: Modifier = Modifier,
     viewModel: CatDetailViewModel,
     catId: String,
-    catDetailRequestSource: String
+    catDetailRequestSource: String,
+    navController: NavController
 ) {
 
     LaunchedEffect(Unit) {
@@ -51,21 +60,32 @@ fun CatDetailScreen(
 
     val catDetailState = viewModel.uiState.collectAsStateWithLifecycle().value
 
+    //Header Bar with back button
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .height(56.dp)) {
+        IconButton(onClick = { navController.popBackStack() }) {
+            Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+        }
+    }
+
     when(catDetailState) {
         is UIState.Loading -> {
-            CatDetailLoading()
+            CatDetailLoading(modifier = Modifier.padding(top = 56.dp))
         }
 
         is UIState.Success -> {
             catDetailState.data?.let { details ->
-                CatDetails(details = details) {
+                CatDetails(details = details, modifier = Modifier.padding(top = 56.dp)) {
                     viewModel.updateCatFavourite(details)
                 }
             }
         }
 
         is UIState.Error -> {
-            CatErrorMessage(errorMessage = catDetailState.message, modifier = Modifier.fillMaxSize())
+            CatErrorMessage(errorMessage = catDetailState.message, modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 56.dp))
         }
     }
 }
@@ -77,7 +97,7 @@ fun CatDetails(
     onFavouriteClick: () -> Unit
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier.verticalScroll(rememberScrollState())
     ) {
         AsyncImage(
             model = details.url,
