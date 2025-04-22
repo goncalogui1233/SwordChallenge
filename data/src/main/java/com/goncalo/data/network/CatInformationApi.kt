@@ -17,7 +17,7 @@ interface CatInformationApi {
          * For safety, the key should be stored in a .properties file and that
          * file not committed to the remote.
          */
-        const val API_KEY = "live_ZNEGQ2HOnf72EKPRq90DXt3p3l5YosflUCzPp69q5fdQf7pPIZUzOP6Q66fIbFQl"
+        const val API_KEY = "REDACTED"
     }
 
     @GET("v1/breeds")
