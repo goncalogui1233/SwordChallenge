@@ -30,3 +30,9 @@ With this, I could continue loading items from the last position.
 **Cat Details**
 
 Since there is only one Screen for details, there can be two different sources to get the information to show. <br>To not create two separate screens, when clicking an item in the list, a param is sent to the detail screen to be passed when calling the method to load the information. <br>In case it fails, it just knows from which local table has to load the information.
+
+
+
+**To setup API Key for testing**
+
+Go to file CatInformationApi and change the content of the variable API_KEY for your own API Key
