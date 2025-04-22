@@ -16,7 +16,6 @@ class FakeCatInformationRepository : CatInformationRepository {
 
     private val breedList = arrayListOf(
         CatInformation(
-            "xnzzM6MBI",
             "abys",
             "https://cdn2.thecatapi.com/images/xnzzM6MBI.jpg",
             "Abyssinian",
@@ -26,7 +25,6 @@ class FakeCatInformationRepository : CatInformationRepository {
             "14 - 15",
         ),
         CatInformation(
-            "zTiuUpmqf",
             "amis",
             "https://cdn2.thecatapi.com/images/zTiuUpmqf.jpg",
             "Australian Mist",
@@ -36,7 +34,6 @@ class FakeCatInformationRepository : CatInformationRepository {
             "12 - 16",
         ),
         CatInformation(
-            "OaTQfIktG",
             "bali",
             "https://cdn2.thecatapi.com/images/OaTQfIktG.jpg",
             "Balinese",
@@ -67,7 +64,7 @@ class FakeCatInformationRepository : CatInformationRepository {
             favouriteList.add(
                 CatDBFavouriteInformation(
                     favId = null,
-                    catDBInformation = catFavouriteInformation.toCatDBInformation().copy(isFavourite = true)
+                    catBreedInformation = catFavouriteInformation.toCatDBInformation().copy(isFavourite = true)
                 )
             )
 
