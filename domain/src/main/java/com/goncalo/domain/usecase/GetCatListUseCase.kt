@@ -12,10 +12,10 @@ class GetCatListUseCase @Inject constructor(
     private val catInformationRepository: CatInformationRepository
 ){
 
-    suspend operator fun invoke(breedName: String) : Flow<PagingData<CatInformation>> {
+    suspend operator fun invoke() : Flow<PagingData<CatInformation>> {
         val catFavouriteList = catInformationRepository.getCatFavouriteList()
 
-        return catInformationRepository.getCatList(breedName).map { pagingData ->
+        return catInformationRepository.getCatList().map { pagingData ->
             pagingData.map { cat ->
                 val isFavourite = catFavouriteList.any { fav -> fav.id == cat.id }
                 cat.copy(isFavourite = isFavourite)

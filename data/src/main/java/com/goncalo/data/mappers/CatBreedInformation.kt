@@ -24,6 +24,8 @@ data class CatBreedInformation(
     val isFavourite: Boolean = false
 )
 
+fun List<CatBreedInformation>.toCatInformationList() = this.map { it.toCatInformation() }
+
 fun CatBreedInformation.toCatInformation() = CatInformation(
     id = this.id,
     url = this.imageId,

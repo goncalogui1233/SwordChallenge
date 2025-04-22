@@ -8,7 +8,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface CatInformationRepository {
 
-    suspend fun getCatList(breedName: String): Flow<PagingData<CatInformation>>
+    suspend fun getCatList(): Flow<PagingData<CatInformation>>
+
+    suspend fun getCatSearchList(breedName: String): List<CatInformation>
 
     suspend fun getCatFavouriteList(): List<CatInformation>
 

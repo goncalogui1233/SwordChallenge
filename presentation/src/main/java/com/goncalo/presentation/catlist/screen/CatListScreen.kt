@@ -31,14 +31,18 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.goncalo.domain.model.classes.CatInformation
 import com.goncalo.domain.model.enums.CatDetailRequestSource
 import com.goncalo.presentation.common.views.CatErrorMessage
 import com.goncalo.presentation.catlist.viewmodel.CatListViewModel
 import com.goncalo.presentation.catlist.views.CatListItem
 import com.goncalo.presentation.common.helpers.CatDetailScreen
+import com.goncalo.presentation.common.helpers.UIState
 import com.goncalo.presentation.common.views.ShimmerEffect
 
 @Composable
@@ -48,6 +52,11 @@ fun CatListScreen(
     navController: NavController
 ) {
     val listItems = viewModel.catList.collectAsLazyPagingItems()
+    val searchItemsUiState = viewModel.catSearchListUiState.collectAsStateWithLifecycle().value
+
+    var isSearching by remember {
+        mutableStateOf(false)
+    }
 
     Column(modifier = modifier.fillMaxSize()) {
         Text(
@@ -57,12 +66,36 @@ fun CatListScreen(
         )
 
         CatListSearchBox { breedSearch ->
-            viewModel.setBreedName(breedSearch)
+            isSearching = breedSearch.isNotEmpty()
+            viewModel.setBreedSearchName(breedSearch)
         }
 
-        LazyVerticalGrid(columns = GridCells.Fixed(3), modifier = Modifier.fillMaxSize()) {
-            if (listItems.loadState.refresh is LoadState.Loading) {
-                //Loading
+        if(isSearching) {
+            CatSearchList(uiState = searchItemsUiState, onFavouriteClick = { it -> viewModel.changeCatFavouriteStatus(it)}) {
+                navController.navigate(CatDetailScreen(it, CatDetailRequestSource.BREED_LIST.name))
+            }
+        } else {
+            CatCompleteList(listItems = listItems, onFavouriteClick = { it -> viewModel.changeCatFavouriteStatus(it)}) {
+                navController.navigate(CatDetailScreen(it, CatDetailRequestSource.BREED_LIST.name))
+            }
+        }
+
+
+    }
+}
+
+@Composable
+fun CatSearchList(
+    modifier: Modifier = Modifier,
+    uiState: UIState<List<CatInformation>>,
+    onFavouriteClick: (CatInformation) -> Unit,
+    onItemClicked: (String) -> Unit
+) {
+
+    LazyVerticalGrid(columns = GridCells.Fixed(3), modifier = Modifier.fillMaxSize()) {
+
+        when (uiState) {
+            is UIState.Loading -> {
                 items(15) {
                     ShimmerEffect(
                         modifier = Modifier
@@ -74,39 +107,77 @@ fun CatListScreen(
                             )
                     )
                 }
-            } else {
-                if (listItems.itemCount == 0) {
-                    item(span = { GridItemSpan(maxLineSpan) }) {
-                        CatErrorMessage(errorMessage = "No items found to fill the Cat List")
-                    }
-                } else {
-                    items(count = listItems.itemCount) {
-                        val catItem = listItems[it]
-                        catItem?.let { item ->
-                            CatListItem(
-                                modifier = Modifier.padding(10.dp),
-                                item = item,
-                                onFavouriteClick = {
-                                    viewModel.changeCatFavouriteStatus(item)
-                                }) {
-                                navController.navigate(
-                                    CatDetailScreen(
-                                        item.id,
-                                        CatDetailRequestSource.BREED_LIST.name
-                                    )
-                                )
-                            }
+            }
+
+            is UIState.Success -> {
+                uiState.data?.let { list ->
+                    items(list.size) { index ->
+                        val item = list[index]
+                        CatListItem(
+                            modifier = Modifier.padding(10.dp),
+                            item = item,
+                            onFavouriteClick = {
+                                onFavouriteClick(item)
+                            }) {
+                            onItemClicked(item.id)
                         }
                     }
+                }
+            }
 
-                    if (listItems.loadState.append is LoadState.Loading) {
-                        item(span = { GridItemSpan(maxLineSpan) }) {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.BottomCenter
-                            ) {
-                                CircularProgressIndicator()
-                            }
+            is UIState.Error -> {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    CatErrorMessage(errorMessage = uiState.message)
+                }
+
+            }
+        }
+    }
+}
+
+@Composable
+fun CatCompleteList(modifier: Modifier = Modifier, listItems: LazyPagingItems<CatInformation>, onFavouriteClick: (CatInformation) -> Unit, onItemClicked: (String) -> Unit) {
+    LazyVerticalGrid(columns = GridCells.Fixed(3), modifier = modifier.fillMaxSize()) {
+        if (listItems.loadState.refresh is LoadState.Loading) {
+            //Loading
+            items(15) {
+                ShimmerEffect(
+                    modifier = Modifier
+                        .width(150.dp)
+                        .height(150.dp)
+                        .padding(10.dp)
+                        .clip(
+                            RoundedCornerShape(12.dp)
+                        )
+                )
+            }
+        } else {
+            if (listItems.itemCount == 0) {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    CatErrorMessage(errorMessage = "No items found to fill the Cat List")
+                }
+            } else {
+                items(count = listItems.itemCount) {
+                    val catItem = listItems[it]
+                    catItem?.let { item ->
+                        CatListItem(
+                            modifier = Modifier.padding(10.dp),
+                            item = item,
+                            onFavouriteClick = {
+                                onFavouriteClick(item)
+                            }) {
+                            onItemClicked(item.id)
+                        }
+                    }
+                }
+
+                if (listItems.loadState.append is LoadState.Loading) {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.BottomCenter
+                        ) {
+                            CircularProgressIndicator()
                         }
                     }
                 }
@@ -114,6 +185,8 @@ fun CatListScreen(
         }
     }
 }
+
+
 
 @Composable
 fun CatListSearchBox(modifier: Modifier = Modifier, onTextChange: (String) -> Unit) {

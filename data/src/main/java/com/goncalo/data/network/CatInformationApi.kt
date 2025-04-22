@@ -33,4 +33,12 @@ interface CatInformationApi {
         @Header("x-api-key") apiKey: String = API_KEY
     ): Response<CatApiInformation>
 
+    @GET("v1/breeds/search")
+    suspend fun getCatSearchList(
+        @Query("q") query: String,
+        @Query("attach_image") attachImage: Int = 1,
+        @Header("x-api-key") apiKey: String = API_KEY
+    ): Response<List<CatBreedInformation>>
+
+
 }

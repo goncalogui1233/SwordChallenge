@@ -30,19 +30,36 @@ class CatInformationRepositoryImpl @Inject constructor(
     private val remoteMediator = CatRemoteMediator(catInformationApi, db.catInformationDao(), dataStore)
 
     @OptIn(ExperimentalPagingApi::class)
-    override suspend fun getCatList(breedName: String): Flow<PagingData<CatInformation>> {
+    override suspend fun getCatList(): Flow<PagingData<CatInformation>> {
         //Gets favourite list to match with the cat list displayed on screen
         return Pager(
             config = PagingConfig(pageSize = 10),
             remoteMediator = remoteMediator
         ) {
-            db.catInformationDao().getAllCatsPaging(breedName)
+            db.catInformationDao().getAllCatsPaging()
         }.flow.map { pagingData ->
             pagingData.map { catInfo ->
                 catInfo.toCatInformation()
             }
         }
     }
+
+    override suspend fun getCatSearchList(breedName: String): List<CatInformation> =
+        try {
+            val searchResult = catInformationApi.getCatSearchList(query = breedName)
+            searchResult.body()?.let { fetchedList ->
+                val listWithImages = fetchedList.map { cat ->
+                    cat.imageId?.let {
+                        val catImage = catInformationApi.getCatImage(it)
+                        cat.copy(imageId = catImage.body()?.url)
+                    } ?: cat
+                }
+
+                listWithImages.toCatInformationList()
+            } ?: emptyList()
+        } catch (e: Exception) {
+            db.catInformationDao().getAllCatsByQuery(breedName).toCatInformationList()
+        }
 
     override suspend fun getCatFavouriteList(): List<CatInformation> =
         db.catFavouriteDao().getAllFavouriteCats().toCatInformationList()

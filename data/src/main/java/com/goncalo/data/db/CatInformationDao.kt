@@ -15,8 +15,11 @@ interface CatInformationDao {
     @Query("SELECT * FROM catbreedinformation")
     suspend fun getAllCats(): List<CatBreedInformation>
 
+    @Query("SELECT * FROM catbreedinformation")
+    fun getAllCatsPaging(): PagingSource<Int, CatBreedInformation>
+
     @Query("SELECT * FROM catbreedinformation where (name like '%' || :breedName || '%' or :breedName == '') ")
-    fun getAllCatsPaging(breedName: String): PagingSource<Int, CatBreedInformation>
+    fun getAllCatsByQuery(breedName: String): List<CatBreedInformation>
 
     @Query("SELECT * FROM catbreedinformation where id = :catId")
     fun getCatBreedById(catId: String): CatBreedInformation?
